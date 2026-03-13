@@ -1,0 +1,544 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,400&family=DM+Sans:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700&family=Sora:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=Anybody:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Unbounded:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
+
+/* ══════════════════════════════════════════════════════════
+ ONCOCARE EHR 2026 — 12-THEME DESIGN SYSTEM
+ 1 nebula · 2 aurora · 3 void
+ 4 dusk · 5 ocean · 6 ember
+ 7 forest · 8 arctic · 9 chrome
+ 10 rose · 11 slate · 12 pearl
+══════════════════════════════════════════════════════════ */
+
+/* ── RESET ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+html { scroll-behavior: smooth; }
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font: inherit; }
+
+/* ══════════════════════════════════════════════════════════
+ THEME 1: NEBULA — Deep space glassmorphism (default)
+ Vibe: cosmic surgical command center at 3am
+══════════════════════════════════════════════════════════ */
+[data-theme="nebula"], :root {
+ --font-display: 'Fraunces', serif;
+ --font-body: 'Outfit', sans-serif;
+ --bg: #07080f;
+ --bg2: #0c0e1a;
+ --bg3: #111323;
+ --surface: rgba(255,255,255,0.04);
+ --surface2: rgba(255,255,255,0.07);
+ --surface3: rgba(255,255,255,0.035);
+ --border: rgba(255,255,255,0.08);
+ --border2: rgba(255,255,255,0.15);
+ --text: #f0f2ff;
+ --text2: #c8ccf0;
+ --muted: #8b90b8;
+ --text3: #464d72;
+ --accent: #c084fc;
+ --accent2: #7c3aed;
+ --accent-glow: rgba(192,132,252,0.28);
+ --blue: #38bdf8; --green: #34d399; --amber: #fbbf24; --red: #f87171; --purple: #c084fc;
+ --sa: #c084fc; --sa2: #7c3aed; --sa-bg: rgba(192,132,252,0.10);
+ --ho: #38bdf8; --ho2: #0369a1; --ho-bg: rgba(56,189,248,0.10);
+ --pa: #34d399; --pa2: #065f46; --pa-bg: rgba(52,211,153,0.10);
+ --line: rgba(255,255,255,0.08);
+ --panel: rgba(255,255,255,0.035); --panel-2: rgba(255,255,255,0.05); --panel-3: rgba(255,255,255,0.07);
+ --r: 10px; --r2: 14px; --r3: 20px; --r4: 28px;
+ --shadow: 0 14px 40px rgba(0,0,0,0.30); --shadow-lg: 0 24px 60px rgba(0,0,0,0.50);
+ --is-dark: 1;
+}
+
+/* ══════════════════════════════════════════════════════════
+ THEME 2: AURORA — Northern lights iridescent dark
+ Vibe: bioluminescent jellyfish, AI future hospital
+══════════════════════════════════════════════════════════ */
+[data-theme="aurora"] {
+ --font-display: 'Sora', sans-serif;
+ --font-body: 'DM Sans', sans-serif;
+ --bg: #030818;
+ --bg2: #060c24;
+ --bg3: #0a1232;
+ --surface: rgba(139,92,246,0.06);
+ --surface2: rgba(139,92,246,0.11);
+ --surface3: rgba(139,92,246,0.04);
+ --border: rgba(139,92,246,0.16);
+ --border2: rgba(139,92,246,0.32);
+ --text: #f0eeff;
+ --text2: #c4b8f8;
+ --muted: #6a5fa8;
+ --text3: #3a3268;
+ --accent: #a78bfa;
+ --accent2: #7c3aed;
+ --accent-glow: rgba(167,139,250,0.35);
+ --blue: #38bdf8; --green: #34d399; --amber: #fbbf24; --red: #f87171; --purple: #c084fc;
+ --sa: #c084fc; --sa2: #9333ea; --sa-bg: rgba(192,132,252,0.10);
+ --ho: #38bdf8; --ho2: #0284c7; --ho-bg: rgba(56,189,248,0.10);
+ --pa: #34d399; --pa2: #059669; --pa-bg: rgba(52,211,153,0.10);
+ --line: rgba(139,92,246,0.14);
+ --panel: rgba(139,92,246,0.05); --panel-2: rgba(139,92,246,0.08); --panel-3: rgba(139,92,246,0.10);
+ --r: 12px; --r2: 16px; --r3: 22px; --r4: 32px;
+ --shadow: 0 14px 44px rgba(10,5,40,0.50); --shadow-lg: 0 24px 64px rgba(10,5,40,0.70);
+ --is-dark: 1;
+}
+
+/* ══════════════════════════════════════════════════════════
+ THEME 3: VOID — Pure black neon-coral luxury
+ Vibe: Apple Vision Pro meets oncology, ultra-minimal
+══════════════════════════════════════════════════════════ */
+[data-theme="void"] {
+ --font-display: 'Instrument Serif', serif;
+ --font-body: 'Inter Tight', sans-serif;
+ --bg: #000000;
+ --bg2: #080808;
+ --bg3: #0f0f0f;
+ --surface: rgba(255,255,255,0.03);
+ --surface2: rgba(255,255,255,0.06);
+ --surface3: rgba(255,255,255,0.02);
+ --border: rgba(255,255,255,0.07);
+ --border2: rgba(255,255,255,0.14);
+ --text: #ffffff;
+ --text2: #d4d4d4;
+ --muted: #666666;
+ --text3: #333333;
+ --accent: #ff6b6b;
+ --accent2: #e53e3e;
+ --accent-glow: rgba(255,107,107,0.30);
+ --blue: #60a5fa; --green: #34d399; --amber: #fbbf24; --red: #ff6b6b; --purple: #a78bfa;
+ --sa: #ff6b6b; --sa2: #e53e3e; --sa-bg: rgba(255,107,107,0.08);
+ --ho: #60a5fa; --ho2: #3b82f6; --ho-bg: rgba(96,165,250,0.08);
+ --pa: #34d399; --pa2: #059669; --pa-bg: rgba(52,211,153,0.08);
+ --line: rgba(255,255,255,0.06);
+ --panel: rgba(255,255,255,0.03); --panel-2: rgba(255,255,255,0.05); --panel-3: rgba(255,255,255,0.04);
+ --r: 6px; --r2: 10px; --r3: 16px; --r4: 22px;
+ --shadow: 0 8px 32px rgba(0,0,0,0.60); --shadow-lg: 0 20px 60px rgba(0,0,0,0.80);
+ --is-dark: 1;
+}
+
+/* ══════════════════════════════════════════════════════════
+ THEME 4: DUSK — Purple-pink cinematic sunset dark
+ Vibe: Blade Runner 2049 medical corridor, moody editorial
+══════════════════════════════════════════════════════════ */
+[data-theme="dusk"] {
+ --font-display: 'Anybody', sans-serif;
+ --font-body: 'Outfit', sans-serif;
+ --bg: #0e0516;
+ --bg2: #160822;
+ --bg3: #1f0c30;
+ --surface: rgba(236,72,153,0.05);
+ --surface2: rgba(236,72,153,0.09);
+ --surface3: rgba(236,72,153,0.03);
+ --border: rgba(236,72,153,0.14);
+ --border2: rgba(236,72,153,0.28);
+ --text: #fce4ff;
+ --text2: #e0a8f8;
+ --muted: #8050a0;
+ --text3: #502868;
+ --accent: #e879f9;
+ --accent2: #c026d3;
+ --accent-glow: rgba(232,121,249,0.35);
+ --blue: #60a5fa; --green: #34d399; --amber: #fbbf24; --red: #f87171; --purple: #e879f9;
+ --sa: #e879f9; --sa2: #c026d3; --sa-bg: rgba(232,121,249,0.10);
+ --ho: #60a5fa; --ho2: #3b82f6; --ho-bg: rgba(96,165,250,0.10);
+ --pa: #34d399; --pa2: #059669; --pa-bg: rgba(52,211,153,0.10);
+ --line: rgba(236,72,153,0.12);
+ --panel: rgba(236,72,153,0.04); --panel-2: rgba(236,72,153,0.07); --panel-3: rgba(236,72,153,0.06);
+ --r: 14px; --r2: 18px; --r3: 24px; --r4: 32px;
+ --shadow: 0 14px 44px rgba(20,5,36,0.55); --shadow-lg: 0 24px 64px rgba(20,5,36,0.75);
+ --is-dark: 1;
+}
+
+/* ══════════════════════════════════════════════════════════
+ THEME 5: OCEAN — Deep midnight teal dark
+ Vibe: submarine operations room, calm & precise
+══════════════════════════════════════════════════════════ */
+[data-theme="ocean"] {
+ --font-display: 'Plus Jakarta Sans', sans-serif;
+ --font-body: 'Outfit', sans-serif;
+ --bg: #020d14;
+ --bg2: #041520;
+ --bg3: #071d2e;
+ --surface: rgba(6,182,212,0.05);
+ --surface2: rgba(6,182,212,0.09);
+ --surface3: rgba(6,182,212,0.03);
+ --border: rgba(6,182,212,0.12);
+ --border2: rgba(6,182,212,0.24);
+ --text: #d4f4f8;
+ --text2: #90d0e0;
+ --muted: #3a7080;
+ --text3: #1a4050;
+ --accent: #06b6d4;
+ --accent2: #0e7490;
+ --accent-glow: rgba(6,182,212,0.30);
+ --blue: #38bdf8; --green: #2dd4bf; --amber: #fbbf24; --red: #f87171; --purple: #a78bfa;
+ --sa: #a78bfa; --sa2: #7c3aed; --sa-bg: rgba(167,139,250,0.08);
+ --ho: #38bdf8; --ho2: #0284c7; --ho-bg: rgba(56,189,248,0.08);
+ --pa: #2dd4bf; --pa2: #0d9488; --pa-bg: rgba(45,212,191,0.08);
+ --line: rgba(6,182,212,0.10);
+ --panel: rgba(6,182,212,0.04); --panel-2: rgba(6,182,212,0.07); --panel-3: rgba(6,182,212,0.06);
+ --r: 10px; --r2: 14px; --r3: 20px; --r4: 28px;
+ --shadow: 0 14px 42px rgba(0,10,20,0.50); --shadow-lg: 0 24px 60px rgba(0,10,20,0.70);
+ --is-dark: 1;
+}
+
+/* ══════════════════════════════════════════════════════════
+ THEME 6: EMBER — Warm amber dark
+ Vibe: candlelit reading room, warm clinical intimacy
+══════════════════════════════════════════════════════════ */
+[data-theme="ember"] {
+ --font-display: 'Fraunces', serif;
+ --font-body: 'DM Sans', sans-serif;
+ --bg: #0f0702;
+ --bg2: #180d03;
+ --bg3: #221205;
+ --surface: rgba(251,191,36,0.05);
+ --surface2: rgba(251,191,36,0.09);
+ --surface3: rgba(251,191,36,0.035);
+ --border: rgba(251,191,36,0.12);
+ --border2: rgba(251,191,36,0.24);
+ --text: #fff4e0;
+ --text2: #e8d0a0;
+ --muted: #8a6a30;
+ --text3: #5a4010;
+ --accent: #fbbf24;
+ --accent2: #d97706;
+ --accent-glow: rgba(251,191,36,0.30);
+ --blue: #60a5fa; --green: #34d399; --amber: #fbbf24; --red: #fb7185; --purple: #c084fc;
+ --sa: #fb923c; --sa2: #ea580c; --sa-bg: rgba(251,146,60,0.10);
+ --ho: #60a5fa; --ho2: #2563eb; --ho-bg: rgba(96,165,250,0.10);
+ --pa: #fbbf24; --pa2: #d97706; --pa-bg: rgba(251,191,36,0.10);
+ --line: rgba(251,191,36,0.10);
+ --panel: rgba(251,191,36,0.04); --panel-2: rgba(251,191,36,0.07); --panel-3: rgba(251,191,36,0.09);
+ --r: 12px; --r2: 16px; --r3: 22px; --r4: 30px;
+ --shadow: 0 14px 40px rgba(30,10,0,0.40); --shadow-lg: 0 24px 60px rgba(30,10,0,0.60);
+ --is-dark: 1;
+}
+
+/* ══════════════════════════════════════════════════════════
+ THEME 7: FOREST — Organic emerald dark
+ Vibe: biophilic design lab, nature-forward clinical
+══════════════════════════════════════════════════════════ */
+[data-theme="forest"] {
+ --font-display: 'Plus Jakarta Sans', sans-serif;
+ --font-body: 'Plus Jakarta Sans', sans-serif;
+ --bg: #030d08;
+ --bg2: #061410;
+ --bg3: #091c16;
+ --surface: rgba(52,211,153,0.05);
+ --surface2: rgba(52,211,153,0.09);
+ --surface3: rgba(52,211,153,0.035);
+ --border: rgba(52,211,153,0.12);
+ --border2: rgba(52,211,153,0.24);
+ --text: #e0f4ed;
+ --text2: #a8d8c0;
+ --muted: #4a7a60;
+ --text3: #235040;
+ --accent: #34d399;
+ --accent2: #059669;
+ --accent-glow: rgba(52,211,153,0.30);
+ --blue: #22d3ee; --green: #34d399; --amber: #fcd34d; --red: #f87171; --purple: #a78bfa;
+ --sa: #a78bfa; --sa2: #7c3aed; --sa-bg: rgba(167,139,250,0.10);
+ --ho: #22d3ee; --ho2: #0891b2; --ho-bg: rgba(34,211,238,0.10);
+ --pa: #34d399; --pa2: #059669; --pa-bg: rgba(52,211,153,0.10);
+ --line: rgba(52,211,153,0.10);
+ --panel: rgba(52,211,153,0.04); --panel-2: rgba(52,211,153,0.07); --panel-3: rgba(52,211,153,0.09);
+ --r: 8px; --r2: 12px; --r3: 18px; --r4: 24px;
+ --shadow: 0 14px 40px rgba(0,20,10,0.40); --shadow-lg: 0 24px 60px rgba(0,20,10,0.60);
+ --is-dark: 1;
+}
+
+/* ══════════════════════════════════════════════════════════
+ THEME 8: ARCTIC — Ice blue crystalline dark
+ Vibe: Scandinavian medical precision, clean and cold
+══════════════════════════════════════════════════════════ */
+[data-theme="arctic"] {
+ --font-display: 'Sora', sans-serif;
+ --font-body: 'DM Sans', sans-serif;
+ --bg: #050c14;
+ --bg2: #071220;
+ --bg3: #0a1830;
+ --surface: rgba(56,189,248,0.06);
+ --surface2: rgba(56,189,248,0.10);
+ --surface3: rgba(56,189,248,0.04);
+ --border: rgba(56,189,248,0.14);
+ --border2: rgba(56,189,248,0.28);
+ --text: #e8f4ff;
+ --text2: #b8d8f0;
+ --muted: #5a8aaa;
+ --text3: #2a5070;
+ --accent: #38bdf8;
+ --accent2: #0284c7;
+ --accent-glow: rgba(56,189,248,0.32);
+ --blue: #38bdf8; --green: #2dd4bf; --amber: #fbbf24; --red: #fb7185; --purple: #a78bfa;
+ --sa: #a78bfa; --sa2: #7c3aed; --sa-bg: rgba(167,139,250,0.10);
+ --ho: #38bdf8; --ho2: #0284c7; --ho-bg: rgba(56,189,248,0.10);
+ --pa: #2dd4bf; --pa2: #0d9488; --pa-bg: rgba(45,212,191,0.10);
+ --line: rgba(56,189,248,0.12);
+ --panel: rgba(56,189,248,0.05); --panel-2: rgba(56,189,248,0.08); --panel-3: rgba(56,189,248,0.10);
+ --r: 10px; --r2: 14px; --r3: 20px; --r4: 28px;
+ --shadow: 0 14px 40px rgba(0,20,50,0.40); --shadow-lg: 0 24px 60px rgba(0,20,50,0.60);
+ --is-dark: 1;
+}
+
+/* ══════════════════════════════════════════════════════════
+ THEME 9: CHROME — Metallic silver brutalist dark
+ Vibe: space station HUD, sharp industrial medical
+══════════════════════════════════════════════════════════ */
+[data-theme="chrome"] {
+ --font-display: 'Unbounded', sans-serif;
+ --font-body: 'Space Grotesk', sans-serif;
+ --bg: #0a0a0c;
+ --bg2: #111116;
+ --bg3: #18181e;
+ --surface: rgba(200,200,220,0.05);
+ --surface2: rgba(200,200,220,0.09);
+ --surface3: rgba(200,200,220,0.03);
+ --border: rgba(180,180,210,0.12);
+ --border2: rgba(180,180,210,0.24);
+ --text: #e8e8f0;
+ --text2: #b8b8cc;
+ --muted: #606070;
+ --text3: #343444;
+ --accent: #e2e8f0;
+ --accent2: #94a3b8;
+ --accent-glow: rgba(226,232,240,0.18);
+ --blue: #60a5fa; --green: #34d399; --amber: #fbbf24; --red: #f87171; --purple: #c084fc;
+ --sa: #c084fc; --sa2: #7c3aed; --sa-bg: rgba(192,132,252,0.08);
+ --ho: #60a5fa; --ho2: #3b82f6; --ho-bg: rgba(96,165,250,0.08);
+ --pa: #34d399; --pa2: #059669; --pa-bg: rgba(52,211,153,0.08);
+ --line: rgba(180,180,210,0.10);
+ --panel: rgba(200,200,220,0.04); --panel-2: rgba(200,200,220,0.07); --panel-3: rgba(200,200,220,0.05);
+ --r: 4px; --r2: 6px; --r3: 10px; --r4: 14px;
+ --shadow: 0 8px 32px rgba(0,0,0,0.50); --shadow-lg: 0 20px 56px rgba(0,0,0,0.70);
+ --is-dark: 1;
+}
+
+/* ══════════════════════════════════════════════════════════
+ THEME 10: ROSE — Warm blush clinical light
+ Vibe: compassionate patient portal, editorial warmth
+══════════════════════════════════════════════════════════ */
+[data-theme="rose"] {
+ --font-display: 'Crimson Pro', serif;
+ --font-body: 'DM Sans', sans-serif;
+ --bg: #fff8f8;
+ --bg2: #fdf0f0;
+ --bg3: #fae8e8;
+ --surface: rgba(255,255,255,0.92);
+ --surface2: rgba(255,255,255,1.00);
+ --surface3: rgba(255,248,248,0.85);
+ --border: rgba(220,100,100,0.14);
+ --border2: rgba(220,100,100,0.28);
+ --text: #2a1010;
+ --text2: #4a2020;
+ --muted: #a06060;
+ --text3: #c09090;
+ --accent: #f43f5e;
+ --accent2: #e11d48;
+ --accent-glow: rgba(244,63,94,0.22);
+ --blue: #3b82f6; --green: #10b981; --amber: #f59e0b; --red: #ef4444; --purple: #8b5cf6;
+ --sa: #8b5cf6; --sa2: #7c3aed; --sa-bg: rgba(139,92,246,0.08);
+ --ho: #3b82f6; --ho2: #2563eb; --ho-bg: rgba(59,130,246,0.08);
+ --pa: #f43f5e; --pa2: #be123c; --pa-bg: rgba(244,63,94,0.08);
+ --line: rgba(220,100,100,0.12);
+ --panel: rgba(255,255,255,0.85); --panel-2: rgba(255,255,255,0.98); --panel-3: rgba(255,248,248,0.80);
+ --r: 12px; --r2: 16px; --r3: 22px; --r4: 30px;
+ --shadow: 0 4px 20px rgba(200,80,80,0.10); --shadow-lg: 0 12px 40px rgba(200,80,80,0.16);
+ --is-dark: 0;
+}
+
+/* ══════════════════════════════════════════════════════════
+ THEME 11: SLATE — Corporate precision light
+ Vibe: enterprise trust, clean hospital dashboard
+══════════════════════════════════════════════════════════ */
+[data-theme="slate"] {
+ --font-display: 'Space Grotesk', sans-serif;
+ --font-body: 'Inter Tight', sans-serif;
+ --bg: #f1f5f9;
+ --bg2: #e2e8f0;
+ --bg3: #cbd5e1;
+ --surface: rgba(255,255,255,0.95);
+ --surface2: rgba(255,255,255,1.00);
+ --surface3: rgba(248,250,252,0.90);
+ --border: rgba(71,85,105,0.14);
+ --border2: rgba(71,85,105,0.26);
+ --text: #0f172a;
+ --text2: #1e293b;
+ --muted: #64748b;
+ --text3: #94a3b8;
+ --accent: #0ea5e9;
+ --accent2: #0284c7;
+ --accent-glow: rgba(14,165,233,0.22);
+ --blue: #0ea5e9; --green: #10b981; --amber: #f59e0b; --red: #ef4444; --purple: #8b5cf6;
+ --sa: #8b5cf6; --sa2: #7c3aed; --sa-bg: rgba(139,92,246,0.08);
+ --ho: #0ea5e9; --ho2: #0284c7; --ho-bg: rgba(14,165,233,0.08);
+ --pa: #10b981; --pa2: #059669; --pa-bg: rgba(16,185,129,0.08);
+ --line: rgba(71,85,105,0.12);
+ --panel: rgba(255,255,255,0.85); --panel-2: rgba(255,255,255,1.00); --panel-3: rgba(241,245,249,0.90);
+ --r: 8px; --r2: 12px; --r3: 16px; --r4: 22px;
+ --shadow: 0 2px 12px rgba(15,23,42,0.08); --shadow-lg: 0 8px 32px rgba(15,23,42,0.14);
+ --is-dark: 0;
+}
+
+/* ══════════════════════════════════════════════════════════
+ THEME 12: PEARL — Soft lavender-white light
+ Vibe: premium clinic lobby, calm and refined
+══════════════════════════════════════════════════════════ */
+[data-theme="pearl"] {
+ --font-display: 'Plus Jakarta Sans', sans-serif;
+ --font-body: 'Plus Jakarta Sans', sans-serif;
+ --bg: #f6f7fb;
+ --bg2: #edeef6;
+ --bg3: #e4e6f2;
+ --surface: rgba(255,255,255,0.90);
+ --surface2: rgba(255,255,255,1.00);
+ --surface3: rgba(255,255,255,0.70);
+ --border: rgba(99,102,141,0.14);
+ --border2: rgba(99,102,141,0.28);
+ --text: #1a1b2e;
+ --text2: #2d2f4a;
+ --muted: #6b6d8f;
+ --text3: #9496b0;
+ --accent: #6366f1;
+ --accent2: #4f46e5;
+ --accent-glow: rgba(99,102,241,0.20);
+ --blue: #3b82f6; --green: #10b981; --amber: #f59e0b; --red: #ef4444; --purple: #8b5cf6;
+ --sa: #8b5cf6; --sa2: #7c3aed; --sa-bg: rgba(139,92,246,0.08);
+ --ho: #3b82f6; --ho2: #2563eb; --ho-bg: rgba(59,130,246,0.08);
+ --pa: #10b981; --pa2: #059669; --pa-bg: rgba(16,185,129,0.08);
+ --line: rgba(99,102,141,0.12);
+ --panel: rgba(255,255,255,0.80); --panel-2: rgba(255,255,255,0.95); --panel-3: rgba(246,247,251,0.90);
+ --r: 10px; --r2: 14px; --r3: 20px; --r4: 28px;
+ --shadow: 0 4px 20px rgba(99,102,141,0.10); --shadow-lg: 0 12px 40px rgba(99,102,141,0.18);
+ --is-dark: 0;
+}
+
+
+/* ══════════════════════════════════════════════════════════
+ BASE STYLES (theme-aware)
+══════════════════════════════════════════════════════════ */
+html, body, #root { min-height: 100%; background: var(--bg); }
+
+body {
+ font-family: var(--font-body);
+ color: var(--text);
+ overflow-x: hidden;
+ line-height: 1.55;
+ transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* Dark theme body backgrounds */
+[data-theme="nebula"] body, [data-theme="nebula"] #root {
+ background:
+ radial-gradient(circle at 15% 15%, rgba(124,58,237,.18), transparent 32%),
+ radial-gradient(circle at 85% 85%, rgba(3,105,161,.14), transparent 32%),
+ radial-gradient(circle at 55% 50%, rgba(6,95,70,.08), transparent 38%),
+ linear-gradient(180deg, var(--bg), var(--bg2));
+}
+[data-theme="aurora"] body, [data-theme="aurora"] #root {
+ background:
+ radial-gradient(circle at 20% 20%, rgba(167,139,250,.20), transparent 35%),
+ radial-gradient(circle at 80% 80%, rgba(56,189,248,.14), transparent 35%),
+ radial-gradient(circle at 50% 50%, rgba(52,211,153,.06), transparent 40%),
+ linear-gradient(160deg, var(--bg), var(--bg2));
+}
+[data-theme="void"] body, [data-theme="void"] #root {
+ background: #000000;
+}
+[data-theme="dusk"] body, [data-theme="dusk"] #root {
+ background:
+ radial-gradient(circle at 20% 20%, rgba(232,121,249,.18), transparent 35%),
+ radial-gradient(circle at 85% 75%, rgba(96,165,250,.12), transparent 38%),
+ radial-gradient(circle at 60% 100%, rgba(244,63,94,.10), transparent 40%),
+ linear-gradient(160deg, var(--bg), var(--bg2));
+}
+[data-theme="ocean"] body, [data-theme="ocean"] #root {
+ background:
+ radial-gradient(circle at 10% 10%, rgba(6,182,212,.14), transparent 35%),
+ radial-gradient(circle at 90% 90%, rgba(14,116,144,.12), transparent 38%),
+ linear-gradient(180deg, var(--bg), var(--bg2));
+}
+[data-theme="ember"] body, [data-theme="ember"] #root {
+ background:
+ radial-gradient(circle at 12% 12%, rgba(251,146,60,.14), transparent 35%),
+ radial-gradient(circle at 88% 88%, rgba(217,119,6,.12), transparent 35%),
+ linear-gradient(180deg, var(--bg), var(--bg2));
+}
+[data-theme="forest"] body, [data-theme="forest"] #root {
+ background:
+ radial-gradient(circle at 10% 10%, rgba(52,211,153,.12), transparent 35%),
+ radial-gradient(circle at 90% 85%, rgba(5,150,105,.10), transparent 38%),
+ linear-gradient(180deg, var(--bg), var(--bg2));
+}
+[data-theme="arctic"] body, [data-theme="arctic"] #root {
+ background:
+ radial-gradient(circle at 10% 10%, rgba(56,189,248,.14), transparent 35%),
+ radial-gradient(circle at 90% 90%, rgba(14,165,233,.12), transparent 35%),
+ linear-gradient(180deg, var(--bg), var(--bg2));
+}
+[data-theme="chrome"] body, [data-theme="chrome"] #root {
+ background:
+ radial-gradient(circle at 30% 20%, rgba(180,180,210,.06), transparent 35%),
+ radial-gradient(circle at 80% 80%, rgba(140,140,180,.04), transparent 38%),
+ linear-gradient(180deg, var(--bg), var(--bg2));
+}
+[data-theme="rose"] body, [data-theme="rose"] #root {
+ background: linear-gradient(135deg, #fff8f8, #fdf0f0);
+}
+[data-theme="slate"] body, [data-theme="slate"] #root {
+ background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+}
+[data-theme="pearl"] body, [data-theme="pearl"] #root {
+ background: linear-gradient(135deg, #f6f7fb, #edeef6);
+}
+
+/* Noise grain overlay for dark themes */
+[data-theme="nebula"] body::before,
+[data-theme="aurora"] body::before,
+[data-theme="void"] body::before,
+[data-theme="dusk"] body::before,
+[data-theme="ocean"] body::before,
+[data-theme="ember"] body::before,
+[data-theme="forest"] body::before,
+[data-theme="arctic"] body::before,
+[data-theme="chrome"] body::before {
+ content: '';
+ position: fixed; inset: 0; z-index: 0; pointer-events: none;
+ background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+ opacity: 0.3;
+}
+
+/* ── AMBIENT BLOBS (dark themes) ── */
+.app-ambient {
+ position: fixed; border-radius: 50%; filter: blur(100px);
+ pointer-events: none; z-index: 0;
+ animation: blobFloat 22s infinite alternate ease-in-out;
+}
+.app-ambient-1 { width: 480px; height: 480px; left: -100px; top: -100px; background: radial-gradient(circle, rgba(124,58,237,.16), transparent 70%); }
+.app-ambient-2 { width: 380px; height: 380px; right: -80px; bottom: -80px; background: radial-gradient(circle, rgba(56,189,248,.11), transparent 70%); animation-delay: -9s; }
+.app-ambient-3 { width: 300px; height: 300px; left: 48%; top: 40%; background: radial-gradient(circle, rgba(52,211,153,.07), transparent 70%); animation-delay: -5s; }
+[data-theme="aurora"] .app-ambient-1 { background: radial-gradient(circle, rgba(167,139,250,.22), transparent 70%); }
+[data-theme="aurora"] .app-ambient-2 { background: radial-gradient(circle, rgba(56,189,248,.16), transparent 70%); }
+[data-theme="aurora"] .app-ambient-3 { background: radial-gradient(circle, rgba(52,211,153,.08), transparent 70%); }
+[data-theme="void"] .app-ambient-1 { background: radial-gradient(circle, rgba(255,107,107,.10), transparent 70%); }
+[data-theme="void"] .app-ambient-2 { background: radial-gradient(circle, rgba(255,107,107,.06), transparent 70%); }
+[data-theme="void"] .app-ambient-3 { display: none; }
+[data-theme="dusk"] .app-ambient-1 { background: radial-gradient(circle, rgba(232,121,249,.20), transparent 70%); }
+[data-theme="dusk"] .app-ambient-2 { background: radial-gradient(circle, rgba(96,165,250,.14), transparent 70%); }
+[data-theme="dusk"] .app-ambient-3 { background: radial-gradient(circle, rgba(244,63,94,.10), transparent 70%); }
+[data-theme="ocean"] .app-ambient-1 { background: radial-gradient(circle, rgba(6,182,212,.18), transparent 70%); }
+[data-theme="ocean"] .app-ambient-2 { background: radial-gradient(circle, rgba(14,116,144,.14), transparent 70%); }
+[data-theme="ocean"] .app-ambient-3 { background: radial-gradient(circle, rgba(45,212,191,.08), transparent 70%); }
+[data-theme="ember"] .app-ambient-1 { background: radial-gradient(circle, rgba(251,146,60,.16), transparent 70%); }
+[data-theme="ember"] .app-ambient-2 { background: radial-gradient(circle, rgba(217,119,6,.12), transparent 70%); }
+[data-theme="forest"] .app-ambient-1 { background: radial-gradient(circle, rgba(52,211,153,.16), transparent 70%); }
+[data-theme="forest"] .app-ambient-2 { background: radial-gradient(circle, rgba(5,150,105,.12), transparent 70%); }
+[data-theme="arctic"] .app-ambient-1 { background: radial-gradient(circle, rgba(56,189,248,.20), transparent 70%); }
+[data-theme="arctic"] .app-ambient-2 { background: radial-gradient(circle, rgba(14,165,233,.16), transparent 70%); }
+[data-theme="chrome"] .app-ambient-1 { background: radial-gradient(circle, rgba(180,180,210,.08), transparent 70%); }
+[data-theme="chrome"] .app-ambient-2 { background: radial-gradient(circle, rgba(140,140,170,.06), transparent 70%); }
+[data-theme="rose"] .app-ambient { display: none; }
+[data-theme="slate"] .app-ambient { display: none; }
+[data-theme="pearl"] .app-ambient { display: none; }
+@keyframes blobFloat { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(28px,22px) scale(1.07); } }
+
