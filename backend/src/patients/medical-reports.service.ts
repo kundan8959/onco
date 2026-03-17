@@ -1,12 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { MedicalReport } from '../entities';
+import { In, Repository } from 'typeorm';
+import { MedicalReport, Patient } from '../entities';
 
 @Injectable()
 export class MedicalReportsService {
   constructor(
     @InjectRepository(MedicalReport) private reportRepo: Repository<MedicalReport>,
+    @InjectRepository(Patient) private patientRepo: Repository<Patient>,
   ) {}
 
   private getPageParams(query: any, defaultSize = 25) {
@@ -21,6 +22,13 @@ export class MedicalReportsService {
     if (query.status) where.status = query.status;
     if (query.document_type) where.document_type = query.document_type;
     if (actor?.role === 'hospital' && actor?.hospital_name) where.hospital_name = actor.hospital_name;
+    if (actor?.role === 'patient') {
+      const patientRows = await this.patientRepo.find({ where: { email: actor.email }, select: ['id'] });
+      const ids = patientRows.map((r) => r.id);
+      if (ids.length === 0) return { count: 0, page: 1, page_size: 25, results: [] };
+      if (where.patient_id) { if (!ids.includes(Number(where.patient_id))) return { count: 0, page: 1, page_size: 25, results: [] }; }
+      else { where.patient_id = In(ids); }
+    }
 
     const { page, page_size, skip } = this.getPageParams(query, 25);
     const [rows, count] = await this.reportRepo.findAndCount({

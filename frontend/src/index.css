@@ -1,5 +1,9 @@
 @import "./styles/tokens.css";
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* ══════════════════════════════════════════════════════════
  BUTTONS
 ══════════════════════════════════════════════════════════ */
@@ -263,7 +267,7 @@ td strong { color: var(--text); }
 ══════════════════════════════════════════════════════════ */
 .crud-modal-overlay {
  position: fixed; inset: 0; background: rgba(2,4,14,0.78); backdrop-filter: blur(8px);
- display: grid; place-items: center; z-index: 1000; padding: 20px;
+ display: grid; place-items: center; z-index: 2000; padding: 20px;
  animation: fadeIn 0.2s ease;
 }
 [data-theme="pearl"] .crud-modal-overlay { background: rgba(30,30,60,0.35); }
@@ -288,7 +292,7 @@ td strong { color: var(--text); }
 /* Generic modal-overlay (shared by multiple dialogs) */
 .modal-overlay {
  position: fixed; inset: 0; background: rgba(2,4,14,0.78); backdrop-filter: blur(8px);
- display: grid; place-items: center; z-index: 1100; padding: 20px;
+ display: grid; place-items: center; z-index: 2100; padding: 20px;
  animation: fadeIn 0.2s ease;
 }
 .modal-box {
@@ -351,7 +355,7 @@ td strong { color: var(--text); }
  position: absolute; right: 0; top: calc(100% + 10px); width: 370px; max-height: 460px; overflow: hidden;
  border-radius: var(--r4); border: 1px solid var(--border2);
  background: color-mix(in srgb, var(--bg3) 96%, transparent);
- backdrop-filter: blur(28px); box-shadow: var(--shadow-lg); animation: slideUp 0.2s ease; z-index: 300;
+ backdrop-filter: blur(28px); box-shadow: var(--shadow-lg); animation: slideUp 0.2s ease; z-index: 1600;
 }
 [data-theme="pearl"] .notification-panel { background: white; }
 [data-theme="rose"] .notification-panel { background: #fff8f8; }
@@ -551,6 +555,12 @@ td strong { color: var(--text); }
 @media (max-width: 1024px) {
  .login-shell { grid-template-columns: 1fr; }
  .comparison-chart-grid { grid-template-columns: 1fr; }
+ .admin-toolbar { grid-template-columns: 1fr 1fr; }
+ .detail-summary { grid-template-columns: repeat(2, minmax(0,1fr)); }
+ /* Stack form on top, hero below on tablet */
+ .login-shell, .premium-login-shell { padding: 20px; gap: 16px; display: flex; flex-direction: column-reverse; }
+ .login-hero, .premium-login-hero { flex: none; min-height: 200px; }
+ .login-form-card, .premium-login-card { flex: none; }
 }
 @media (max-width: 860px) {
  .sidebar { display: none; }
@@ -564,10 +574,42 @@ td strong { color: var(--text); }
  .patient-hero-card, .module-intro-card { flex-direction: column; }
  .stats-grid { grid-template-columns: 1fr 1fr; }
  .theme-picker-fab { bottom: 16px; right: 16px; }
+ .page-title, .premium-page-title { font-size: 22px; }
+ .page-header, .page-header-premium { flex-direction: column; align-items: stretch; gap: 10px; }
+ .admin-toolbar { grid-template-columns: 1fr; }
+ .analytics-grid-2 { grid-template-columns: 1fr !important; }
+ .comparison-chart-grid { grid-template-columns: 1fr; }
+ .calendar-grid { grid-template-columns: 1fr; }
+ .claim-chart-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+ .topbar-right .identity-pill { display: none; }
+ .hero-card p { font-size: 13px; }
+ .crud-modal-body { padding: 16px; }
+ .crud-modal-header { padding: 14px 16px; }
+}
+@media (max-width: 640px) {
+ .stats-grid, .metric-grid { grid-template-columns: 1fr 1fr; }
+ .claim-chart-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+ .topbar-brand-name span { display: none; }
+ .search-bar { flex-direction: column; }
+ .tabs { gap: 5px; }
+ .tab { padding: 6px 12px; font-size: 12px; }
+ .data-card-header { flex-direction: column; align-items: flex-start; }
+ .page-title, .premium-page-title { font-size: 20px; }
 }
 @media (max-width: 520px) {
  .stats-grid, .metric-grid { grid-template-columns: 1fr; }
  .topbar-brand-name span { display: none; }
  .progress-cycles { gap: 4px; }
  .cycle-dot { width: 28px; height: 28px; font-size: 10px; }
+ .hero-card { padding: 16px 18px; }
+ .card { padding: 14px 16px; }
+ .stat-value, .metric-card strong { font-size: 26px; }
+ .patient-welcome-card { padding: 18px; }
+ .patient-hero-card { padding: 16px; }
+ .module-intro-card { padding: 14px 16px; }
+ .form-actions { flex-direction: column; }
+ .form-actions .btn, .form-actions button { width: 100%; justify-content: center; }
+ /* On very small screens, hide the login hero to save space */
+ .login-hero, .premium-login-hero { display: none; }
+ .login-shell, .premium-login-shell { padding: 16px; min-height: 100svh; align-items: center; }
 }

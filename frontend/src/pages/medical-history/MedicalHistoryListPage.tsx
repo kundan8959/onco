@@ -76,7 +76,8 @@ export default function MedicalHistoryListPage() {
     e.preventDefault();
     setSaving(true);
     try {
-      await medicalHistoryApi.upsert({ ...form, patient_id: Number(form.patient_id) });
+      const { id, created_at, updated_at, patient, patient_name, ...payload } = form as any;
+      await medicalHistoryApi.upsert({ ...payload, patient_id: Number(payload.patient_id) });
       reset();
       fetchData();
     } finally {

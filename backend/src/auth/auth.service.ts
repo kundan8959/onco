@@ -25,6 +25,7 @@ export class AuthService {
     return {
       sub: user.id,
       username: user.username,
+      email: user.email,
       role: user.role,
       is_staff: user.is_staff,
       is_superuser: user.is_superuser,

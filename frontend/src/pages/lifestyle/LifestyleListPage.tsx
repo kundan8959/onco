@@ -69,7 +69,8 @@ export default function LifestyleListPage() {
     e.preventDefault();
     setSaving(true);
     try {
-      await lifestyleApi.upsert({ ...form, patient_id: Number(form.patient_id), sleep_hours: form.sleep_hours ? Number(form.sleep_hours) : null });
+      const { id, created_at, updated_at, patient, patient_name, ...payload } = form as any;
+      await lifestyleApi.upsert({ ...payload, patient_id: Number(payload.patient_id), sleep_hours: payload.sleep_hours ? Number(payload.sleep_hours) : null });
       reset();
       fetchData();
     } finally {

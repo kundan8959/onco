@@ -1,4 +1,4 @@
-import { IsBoolean, IsDateString, IsIn, IsInt, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsBoolean, IsDateString, IsIn, IsInt, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString } from 'class-validator';
 
 export class CreateOncologyRecordDto {
   @IsInt() patient_id: number;
@@ -46,6 +46,8 @@ export class CreateOncologyRecordDto {
 }
 
 export class UpdateOncologyRecordDto {
+  @IsOptional() @IsInt() patient_id?: number;
+  @IsOptional() @IsString() hospital_name?: string;
   @IsOptional() @IsString() cancer_type?: string;
   @IsOptional() @IsString() other_cancer_type_details?: string;
   @IsOptional() @IsString() icd10_code?: string;
@@ -92,27 +94,41 @@ export class CreateTreatmentDto {
 }
 
 export class UpdateTreatmentDto {
+  @IsOptional() @IsInt() oncology_record_id?: number;
+  @IsOptional() @IsInt() patient_id?: number;
   @IsOptional() @IsString() treatment_type?: string;
   @IsOptional() @IsString() regimen_name?: string;
   @IsOptional() @IsDateString() start_date?: string;
   @IsOptional() @IsDateString() end_date?: string;
   @IsOptional() @IsString() response?: string;
+  @IsOptional() @IsString() status?: string;
   @IsOptional() @IsString() readiness_status?: string;
+  @IsOptional() @IsString() hospital_name?: string;
+  @IsOptional() @IsString() notes?: string;
 }
 
 export class CreateSymptomDto {
   @IsInt() oncology_record_id: number;
   @IsString() @IsNotEmpty() symptom_name: string;
   @IsString() @IsNotEmpty() severity: string;
+  @IsOptional() @IsDateString() onset_date?: string;
   @IsOptional() @IsString() progression?: string;
+  @IsOptional() @IsNumber() pain_score?: number;
+  @IsOptional() @IsString() notes?: string;
   @IsOptional() @IsString() hospital_name?: string;
+  @IsOptional() @IsDateString() reported_date?: string;
 }
 
 export class UpdateSymptomDto {
+  @IsOptional() @IsInt() oncology_record_id?: number;
   @IsOptional() @IsString() symptom_name?: string;
   @IsOptional() @IsString() severity?: string;
+  @IsOptional() @IsDateString() onset_date?: string;
   @IsOptional() @IsString() progression?: string;
+  @IsOptional() @IsNumber() pain_score?: number;
   @IsOptional() @IsString() notes?: string;
+  @IsOptional() @IsString() hospital_name?: string;
+  @IsOptional() @IsDateString() reported_date?: string;
 }
 
 export class CreatePayerDto {
@@ -122,14 +138,46 @@ export class CreatePayerDto {
   @IsString() @IsNotEmpty() claim_type: string;
   @IsOptional() @IsString() claim_status?: string;
   @IsOptional() @IsString() hospital_name?: string;
+  @IsOptional() @IsString() primary_or_secondary?: string;
+  @IsOptional() @IsString() icd10_diagnosis_code?: string;
+  @IsOptional() @IsString() authorization_status?: string;
+  @IsOptional() @IsString() authorization_number?: string;
+  @IsOptional() @IsString() claim_number?: string;
+  @IsOptional() @IsDateString() submission_date?: string;
+  @IsOptional() @IsNumber() billed_amount?: number;
+  @IsOptional() @IsNumber() approved_amount?: number;
+  @IsOptional() @IsArray() cpt_codes?: string[];
+  @IsOptional() @IsArray() hcpcs_codes?: string[];
+  @IsOptional() @IsString() denial_reason?: string;
+  @IsOptional() @IsBoolean() prior_authorization_required?: boolean;
+  @IsOptional() @IsBoolean() resubmission_flag?: boolean;
+  @IsOptional() @IsString() original_claim_number?: string;
+  @IsOptional() @IsString() clearinghouse_name?: string;
 }
 
 export class UpdatePayerDto {
+  @IsOptional() @IsInt() oncology_record_id?: number;
+  @IsOptional() @IsInt() patient_id?: number;
   @IsOptional() @IsString() insurance_company?: string;
   @IsOptional() @IsString() policy_number?: string;
   @IsOptional() @IsString() claim_type?: string;
   @IsOptional() @IsString() claim_status?: string;
+  @IsOptional() @IsString() hospital_name?: string;
   @IsOptional() @IsString() authorization_status?: string;
+  @IsOptional() @IsString() authorization_number?: string;
+  @IsOptional() @IsString() claim_number?: string;
+  @IsOptional() @IsString() primary_or_secondary?: string;
+  @IsOptional() @IsString() icd10_diagnosis_code?: string;
+  @IsOptional() @IsDateString() submission_date?: string;
+  @IsOptional() @IsNumber() billed_amount?: number;
+  @IsOptional() @IsNumber() approved_amount?: number;
+  @IsOptional() @IsArray() cpt_codes?: string[];
+  @IsOptional() @IsArray() hcpcs_codes?: string[];
+  @IsOptional() @IsString() denial_reason?: string;
+  @IsOptional() @IsBoolean() prior_authorization_required?: boolean;
+  @IsOptional() @IsBoolean() resubmission_flag?: boolean;
+  @IsOptional() @IsString() original_claim_number?: string;
+  @IsOptional() @IsString() clearinghouse_name?: string;
 }
 
 export class CreateFollowupDto {
@@ -138,14 +186,17 @@ export class CreateFollowupDto {
   @IsOptional() @IsBoolean() recurrence_detected?: boolean;
   @IsOptional() @IsString() imaging_summary?: string;
   @IsOptional() @IsString() tumor_marker_summary?: string;
+  @IsOptional() @IsString() hospital_name?: string;
   @IsOptional() @IsString() notes?: string;
 }
 
 export class UpdateFollowupDto {
+  @IsOptional() @IsInt() oncology_record_id?: number;
   @IsOptional() @IsDateString() followup_date?: string;
   @IsOptional() @IsBoolean() recurrence_detected?: boolean;
   @IsOptional() @IsString() imaging_summary?: string;
   @IsOptional() @IsString() tumor_marker_summary?: string;
+  @IsOptional() @IsString() hospital_name?: string;
   @IsOptional() @IsString() notes?: string;
 }
 

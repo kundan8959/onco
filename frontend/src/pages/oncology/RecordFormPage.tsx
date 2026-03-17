@@ -224,18 +224,25 @@ export default function RecordFormPage() {
     setSaving(true);
     setErrors({});
     try {
+      const {
+        id: _id, created_at, updated_at, patient, patient_name,
+        treatments, followups, symptom_reports, payer_submissions,
+        baseline_vitals, tnm_staging, has_active_treatment,
+        needs_treatment_warning, roadmap_generated_at,
+        ...formFields
+      } = form as any;
       const payload = {
-        ...form,
-        patient_id: Number(form.patient_id),
-        diagnosis_confirmed: !!form.diagnosis_confirmed,
-        lymph_node_involvement: !!form.lymph_node_involvement,
-        metastasis_present: !!form.metastasis_present,
-        is_primary: !!form.is_primary,
-        ai_confidence_score: form.ai_confidence_score ? Number(form.ai_confidence_score) : null,
-        ecog_performance_status: form.ecog_performance_status !== '' ? Number(form.ecog_performance_status) : null,
-        tumor_size_cm: form.tumor_size_cm ? Number(form.tumor_size_cm) : null,
-        biomarkers: (() => { try { return JSON.parse(form.biomarkers || '{}'); } catch { return {}; } })(),
-        other_cancer_type_details: form.cancer_type === 'other' ? form.other_cancer_type_details : null,
+        ...formFields,
+        patient_id: Number(formFields.patient_id),
+        diagnosis_confirmed: !!formFields.diagnosis_confirmed,
+        lymph_node_involvement: !!formFields.lymph_node_involvement,
+        metastasis_present: !!formFields.metastasis_present,
+        is_primary: !!formFields.is_primary,
+        ai_confidence_score: formFields.ai_confidence_score ? Number(formFields.ai_confidence_score) : null,
+        ecog_performance_status: formFields.ecog_performance_status !== '' ? Number(formFields.ecog_performance_status) : null,
+        tumor_size_cm: formFields.tumor_size_cm ? Number(formFields.tumor_size_cm) : null,
+        biomarkers: (() => { try { return JSON.parse(formFields.biomarkers || '{}'); } catch { return {}; } })(),
+        other_cancer_type_details: formFields.cancer_type === 'other' ? formFields.other_cancer_type_details : null,
       };
       if (isEdit) {
         await oncologyApi.records.update(Number(id), payload);

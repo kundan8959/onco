@@ -423,7 +423,7 @@ export class OncologyService {
       if (recordIds.length === 0) return { count: 0, page: 1, page_size: 25, results: [] };
       where.oncology_record_id = In(recordIds);
     }
-    return this.paginate(this.followupRepo, { where, order: { followup_date: 'DESC' } }, query);
+    return this.paginate(this.followupRepo, { where, relations: ['oncology_record', 'oncology_record.patient'], order: { followup_date: 'DESC' } }, query);
   }
 
   async createFollowup(data: Partial<OncologyFollowUp>) {

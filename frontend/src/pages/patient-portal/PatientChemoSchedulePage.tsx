@@ -94,7 +94,7 @@ export default function PatientChemoSchedulePage() {
   const today = new Date().toISOString().slice(0, 10);
 
   const upcoming = useMemo(() => treatments.filter((t) => !['completed', 'cancelled', 'missed'].includes(t.status) && t.scheduled_date >= today), [treatments, today]);
-  const past = useMemo(() => treatments.filter((t) => ['completed', 'cancelled', 'missed'].includes(t.status) || (t.scheduled_date && t.scheduled_date < today)), [treatments, today]);
+  const _past = useMemo(() => treatments.filter((t) => ['completed', 'cancelled', 'missed'].includes(t.status) || (t.scheduled_date && t.scheduled_date < today)), [treatments, today]); void _past;
   const nextSession = upcoming[0] || null;
 
   // Group by month for calendar view
@@ -123,7 +123,7 @@ export default function PatientChemoSchedulePage() {
       <!DOCTYPE html>
       <html>
       <head>
-        <title>My Chemotherapy Schedule</title>
+        <title>My Treatment Episodes</title>
         <style>
           body { font-family: 'Segoe UI', Arial, sans-serif; color: #2d3748; margin: 40px; font-size: 13px; }
           h1 { font-size: 22px; color: #1a202c; margin-bottom: 4px; }
@@ -143,7 +143,7 @@ export default function PatientChemoSchedulePage() {
         </style>
       </head>
       <body>
-        <h1>My Chemotherapy Schedule</h1>
+        <h1>My Treatment Episodes</h1>
         <div class="subtitle">Generated on ${new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
         ${byMonth.map(([month, sessions]) => `
           <h2>${formatMonth(month)}</h2>
@@ -187,8 +187,8 @@ export default function PatientChemoSchedulePage() {
       {/* Header */}
       <div className="page-header">
         <div>
-          <h2 className="page-title"><i className="fas fa-calendar-days"></i> My Chemo Schedule</h2>
-          <p className="page-subtitle">Your upcoming and past chemotherapy sessions</p>
+          <h2 className="page-title"><i className="fas fa-calendar-days"></i> My Episodes</h2>
+          <p className="page-subtitle">All your upcoming and past treatment sessions</p>
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
           <button className="btn btn-secondary" onClick={handlePrint} disabled={treatments.length === 0}>
@@ -267,7 +267,7 @@ export default function PatientChemoSchedulePage() {
         <div className="card" style={{ textAlign: 'center', padding: '48px 24px', color: '#b7b9cc' }}>
           <i className="fas fa-calendar-xmark" style={{ fontSize: 40, marginBottom: 14, display: 'block' }}></i>
           <h3 style={{ margin: '0 0 8px', color: '#5a5c69' }}>No sessions scheduled yet</h3>
-          <p style={{ margin: 0, fontSize: 13 }}>Your chemotherapy schedule will appear here once treatment is planned by your care team.</p>
+          <p style={{ margin: 0, fontSize: 13 }}>Your treatment episodes will appear here once sessions are scheduled by your care team.</p>
         </div>
       )}
 

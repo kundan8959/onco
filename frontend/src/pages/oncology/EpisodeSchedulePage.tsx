@@ -76,7 +76,7 @@ export default function EpisodeSchedulePage() {
   const { canCreateTreatment, canEditTreatment, canDeleteTreatment } = usePermissions();
 
   const [episodes, setEpisodes] = useState<any[]>([]);
-  const [total, setTotal] = useState(0);
+  const [, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [actionLoading, setActionLoading] = useState<number | null>(null);

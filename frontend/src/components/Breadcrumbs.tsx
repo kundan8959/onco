@@ -29,7 +29,7 @@ const segmentLabelMap: Record<string, string> = {
   dashboard: 'Dashboard',
   profile: 'Profile',
   'treatment-plan': 'Treatment Plan',
-  'chemo-schedule': 'Chemo Schedule',
+  'chemo-schedule': 'My Episodes',
   'health-metrics': 'Health Metrics',
   documents: 'Documents',
   add: 'Add',

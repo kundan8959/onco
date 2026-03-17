@@ -25,7 +25,7 @@ const STATUS_COLORS: Record<string, string> = {
 };
 
 export default function PatientDocumentsPage() {
-  const { user } = useAuth();
+  const { } = useAuth();
   const dispatch = useAppDispatch();
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -55,7 +55,7 @@ export default function PatientDocumentsPage() {
       const fd = new FormData();
       fd.append('document_type', docType);
       fd.append('document_file', uploadFile);
-      await imagingApi.upload(fd);
+      await imagingApi.create(fd);
       dispatch(showNotice({ kind: 'success', text: 'Document uploaded. Your care team will review it.' }));
       setUploadOpen(false);
       setUploadFile(null);

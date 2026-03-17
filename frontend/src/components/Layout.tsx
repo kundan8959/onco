@@ -52,6 +52,7 @@ export default function Layout() {
   const location = useLocation();
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const { logoSmall, logoFull } = useThemeLogo();
 
   const routes = useMemo(() => appRoutes.filter((route) => user && route.roles.includes(user.role)), [user]);
@@ -112,7 +113,16 @@ export default function Layout() {
       <div className="app-ambient app-ambient-1"></div>
       <div className="app-ambient app-ambient-2"></div>
       <div className="app-ambient app-ambient-3"></div>
-      <aside className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
+
+      {/* Mobile overlay backdrop */}
+      {mobileOpen && (
+        <div
+          className="sidebar-mobile-overlay"
+          onClick={() => setMobileOpen(false)}
+        />
+      )}
+
+      <aside className={`sidebar ${collapsed ? 'collapsed' : ''} ${mobileOpen ? 'mobile-open' : ''}`}>
         <div className="sidebar-glow"></div>
         <div className="brand-block">
           {collapsed ? (
@@ -148,7 +158,7 @@ export default function Layout() {
       <div className="main-shell">
         <header className="topbar">
           <div className="topbar-left">
-            <button className="ghost-button topbar-menu" onClick={() => setCollapsed((value) => !value)}>
+            <button className="ghost-button topbar-menu" onClick={() => { setCollapsed((v) => !v); setMobileOpen((v) => !v); }}>
               <i className="fas fa-bars"></i>
             </button>
             <div className="topbar-brand" onClick={() => navigate(getDefaultRouteForRole(user.role))}>

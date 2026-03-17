@@ -7,7 +7,7 @@ export default function PatientHealthMetrics() {
   const { user, patient: authPatient } = useAuth();
   const [vitals, setVitals] = useState<any[]>([]);
   const [symptoms, setSymptoms] = useState<any[]>([]);
-  const [patientId, setPatientId] = useState<number | null>(null);
+  const [, setPatientId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

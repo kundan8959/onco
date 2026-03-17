@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, ConflictException, ForbiddenException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Like, ILike } from 'typeorm';
+import { Repository, Like, ILike, In } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 import {
   Patient, Allergy, Vitals, Lifestyle, MedicalHistory,
@@ -43,6 +43,13 @@ export class PatientsService {
     };
   }
 
+  /** Returns IDs of all Patient rows matching the actor's email (patient user). */
+  private async getPatientIdsForActor(actor: any): Promise<number[]> {
+    if (!actor?.email) return [];
+    const rows = await this.patientRepo.find({ where: { email: actor.email }, select: ['id'] });
+    return rows.map((r) => r.id);
+  }
+
   constructor(
     @InjectRepository(Patient) private patientRepo: Repository<Patient>,
     @InjectRepository(Allergy) private allergyRepo: Repository<Allergy>,
@@ -64,6 +71,10 @@ export class PatientsService {
 
     if (actor?.role === 'hospital' && actor?.hospital_name) {
       qb.andWhere('p.hospital_name = :hospital_name', { hospital_name: actor.hospital_name });
+    } else if (actor?.role === 'patient') {
+      const ids = await this.getPatientIdsForActor(actor);
+      if (ids.length === 0) return { count: 0, results: [] };
+      qb.andWhere('p.id IN (:...patientIds)', { patientIds: ids });
     }
 
     if (search) {
@@ -112,6 +123,10 @@ export class PatientsService {
     if (!patient) throw new NotFoundException('Patient not found');
     if (actor?.role === 'hospital' && actor?.hospital_name && patient.hospital_name !== actor.hospital_name)
       throw new ForbiddenException('Access denied');
+    if (actor?.role === 'patient') {
+      const ids = await this.getPatientIdsForActor(actor);
+      if (!ids.includes(id)) throw new ForbiddenException('Access denied');
+    }
 
     const [allergies, vitals, lifestyle, medicalHistory, medications, conditions] = await Promise.all([
       this.allergyRepo.find({ where: { patient_id: id }, order: { severity: 'DESC' } }),
@@ -314,6 +329,12 @@ export class PatientsService {
     if (query.patient_id) where.patient_id = query.patient_id;
     if (query.severity) where.severity = query.severity;
     if (actor?.role === 'hospital' && actor?.hospital_name) where.patient = { hospital_name: actor.hospital_name };
+    if (actor?.role === 'patient') {
+      const ids = await this.getPatientIdsForActor(actor);
+      if (ids.length === 0) return { count: 0, page: 1, page_size: 25, results: [] };
+      if (where.patient_id) { if (!ids.includes(Number(where.patient_id))) return { count: 0, page: 1, page_size: 25, results: [] }; }
+      else { where.patient_id = In(ids); }
+    }
     return this.paginate(this.allergyRepo, {
       where,
       relations: ['patient'],
@@ -340,6 +361,12 @@ export class PatientsService {
     const where: any = {};
     if (query.patient_id) where.patient_id = query.patient_id;
     if (actor?.role === 'hospital' && actor?.hospital_name) where.patient = { hospital_name: actor.hospital_name };
+    if (actor?.role === 'patient') {
+      const ids = await this.getPatientIdsForActor(actor);
+      if (ids.length === 0) return { count: 0, page: 1, page_size: 25, results: [] };
+      if (where.patient_id) { if (!ids.includes(Number(where.patient_id))) return { count: 0, page: 1, page_size: 25, results: [] }; }
+      else { where.patient_id = In(ids); }
+    }
     return this.paginate(this.vitalsRepo, {
       where,
       relations: ['patient'],
@@ -401,6 +428,12 @@ export class PatientsService {
     const where: any = {};
     if (query.patient_id) where.patient_id = query.patient_id;
     if (actor?.role === 'hospital' && actor?.hospital_name) where.patient = { hospital_name: actor.hospital_name };
+    if (actor?.role === 'patient') {
+      const ids = await this.getPatientIdsForActor(actor);
+      if (ids.length === 0) return { count: 0, page: 1, page_size: 25, results: [] };
+      if (where.patient_id) { if (!ids.includes(Number(where.patient_id))) return { count: 0, page: 1, page_size: 25, results: [] }; }
+      else { where.patient_id = In(ids); }
+    }
     return this.paginate(this.lifestyleRepo, { where, relations: ['patient'] }, query);
   }
 
@@ -423,6 +456,12 @@ export class PatientsService {
     const where: any = {};
     if (query.patient_id) where.patient_id = query.patient_id;
     if (actor?.role === 'hospital' && actor?.hospital_name) where.patient = { hospital_name: actor.hospital_name };
+    if (actor?.role === 'patient') {
+      const ids = await this.getPatientIdsForActor(actor);
+      if (ids.length === 0) return { count: 0, page: 1, page_size: 25, results: [] };
+      if (where.patient_id) { if (!ids.includes(Number(where.patient_id))) return { count: 0, page: 1, page_size: 25, results: [] }; }
+      else { where.patient_id = In(ids); }
+    }
     return this.paginate(this.medHistRepo, { where, relations: ['patient'] }, query);
   }
 
@@ -446,6 +485,12 @@ export class PatientsService {
     if (query.patient_id) where.patient_id = query.patient_id;
     if (query.is_active !== undefined) where.is_active = query.is_active === 'true';
     if (actor?.role === 'hospital' && actor?.hospital_name) where.patient = { hospital_name: actor.hospital_name };
+    if (actor?.role === 'patient') {
+      const ids = await this.getPatientIdsForActor(actor);
+      if (ids.length === 0) return { count: 0, page: 1, page_size: 25, results: [] };
+      if (where.patient_id) { if (!ids.includes(Number(where.patient_id))) return { count: 0, page: 1, page_size: 25, results: [] }; }
+      else { where.patient_id = In(ids); }
+    }
     return this.paginate(this.medicationRepo, {
       where,
       relations: ['patient'],
@@ -526,6 +571,12 @@ export class PatientsService {
     if (query.patient_id) where.patient_id = query.patient_id;
     if (query.status) where.status = query.status;
     if (actor?.role === 'hospital' && actor?.hospital_name) where.patient = { hospital_name: actor.hospital_name };
+    if (actor?.role === 'patient') {
+      const ids = await this.getPatientIdsForActor(actor);
+      if (ids.length === 0) return { count: 0, page: 1, page_size: 25, results: [] };
+      if (where.patient_id) { if (!ids.includes(Number(where.patient_id))) return { count: 0, page: 1, page_size: 25, results: [] }; }
+      else { where.patient_id = In(ids); }
+    }
     return this.paginate(this.conditionRepo, {
       where,
       relations: ['patient'],

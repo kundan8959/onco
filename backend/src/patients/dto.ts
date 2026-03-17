@@ -55,6 +55,7 @@ export class CreateVitalsDto {
 }
 
 export class UpdateVitalsDto {
+  @IsOptional() @IsInt() patient_id?: number;
   @IsOptional() @IsNumber() bp_systolic?: number;
   @IsOptional() @IsNumber() bp_diastolic?: number;
   @IsOptional() @IsNumber() diabetes?: number;
@@ -71,17 +72,29 @@ export class CreateMedicationDto {
   @IsString() @IsNotEmpty() frequency: string;
   @IsOptional() @IsString() route?: string;
   @IsOptional() @IsDateString() start_date?: string;
+  @IsOptional() @IsDateString() end_date?: string;
+  @IsOptional() @IsString() prescribed_by?: string;
+  @IsOptional() @IsString() reason?: string;
+  @IsOptional() @IsString() notes?: string;
   @IsOptional() @IsBoolean() is_active?: boolean;
+  @IsOptional() @IsString() hospital_name?: string;
+  @IsOptional() @IsString() data_source?: string;
 }
 
 export class UpdateMedicationDto {
+  @IsOptional() @IsInt() patient_id?: number;
   @IsOptional() @IsString() medicine_name?: string;
   @IsOptional() @IsString() dosage?: string;
   @IsOptional() @IsString() frequency?: string;
   @IsOptional() @IsString() route?: string;
   @IsOptional() @IsDateString() start_date?: string;
   @IsOptional() @IsDateString() end_date?: string;
+  @IsOptional() @IsString() prescribed_by?: string;
+  @IsOptional() @IsString() reason?: string;
+  @IsOptional() @IsString() notes?: string;
   @IsOptional() @IsBoolean() is_active?: boolean;
+  @IsOptional() @IsString() hospital_name?: string;
+  @IsOptional() @IsString() data_source?: string;
 }
 
 export class CreateAllergyDto {
@@ -89,12 +102,21 @@ export class CreateAllergyDto {
   @IsString() @IsNotEmpty() allergen: string;
   @IsOptional() @IsString() reaction?: string;
   @IsOptional() @IsString() severity?: string;
+  @IsOptional() @IsNumber() diagnosed_year?: number;
+  @IsOptional() @IsString() notes?: string;
+  @IsOptional() @IsString() hospital_name?: string;
+  @IsOptional() @IsString() data_source?: string;
 }
 
 export class UpdateAllergyDto {
+  @IsOptional() @IsInt() patient_id?: number;
   @IsOptional() @IsString() allergen?: string;
   @IsOptional() @IsString() reaction?: string;
   @IsOptional() @IsString() severity?: string;
+  @IsOptional() @IsNumber() diagnosed_year?: number;
+  @IsOptional() @IsString() notes?: string;
+  @IsOptional() @IsString() hospital_name?: string;
+  @IsOptional() @IsString() data_source?: string;
 }
 
 export class UpsertLifestyleDto {
@@ -124,18 +146,23 @@ export class UpsertMedicalHistoryDto {
 export class CreateConditionDto {
   @IsInt() patient_id: number;
   @IsString() @IsNotEmpty() condition: string;
+  @IsOptional() @IsString() condition_name_other?: string;
   @IsInt() diagnosed_year: number;
   @IsOptional() @IsString() status?: string;
   @IsOptional() @IsString() diagnosed_by?: string;
   @IsOptional() @IsString() treatment?: string;
   @IsOptional() @IsString() notes?: string;
+  @IsOptional() @IsString() data_source?: string;
 }
 
 export class UpdateConditionDto {
+  @IsOptional() @IsInt() patient_id?: number;
   @IsOptional() @IsString() condition?: string;
+  @IsOptional() @IsString() condition_name_other?: string;
   @IsOptional() @IsInt() diagnosed_year?: number;
   @IsOptional() @IsString() status?: string;
   @IsOptional() @IsString() diagnosed_by?: string;
   @IsOptional() @IsString() treatment?: string;
   @IsOptional() @IsString() notes?: string;
+  @IsOptional() @IsString() data_source?: string;
 }

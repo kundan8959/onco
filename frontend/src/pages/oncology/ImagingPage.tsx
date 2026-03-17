@@ -111,7 +111,7 @@ Analyze the provided medical document/image and return structured JSON ONLY with
 
 export default function ImagingPage() {
   const dispatch = useAppDispatch();
-  const { canUploadDocument, canManageImaging } = usePermissions();
+  const { canUploadDocument } = usePermissions();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Upload form state
