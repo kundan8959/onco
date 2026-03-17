@@ -6,6 +6,7 @@ import CrudModal from '../../components/CrudModal';
 import PatientSearchPicker from '../../components/PatientSearchPicker';
 import PaginationControls from '../../components/PaginationControls';
 import { usePermissions } from '../../hooks/usePermissions';
+import DateInput from '../../components/DateInput';
 
 const emptyForm = {
   oncology_record_id: '',
@@ -203,8 +204,8 @@ export default function TreatmentListPage() {
           <div className="detail-field"><label>Linked Oncology Record</label><span>{linkedRecord ? `${linkedRecord.cancer_type} · ${linkedRecord.clinical_stage || linkedRecord.status || 'Active'}` : 'No oncology record found'}</span></div>
           <div className="form-group"><label>Type</label><select value={form.treatment_type} onChange={(e) => setForm({ ...form, treatment_type: e.target.value })}><option value="surgery">Surgery</option><option value="chemotherapy">Chemotherapy</option><option value="radiation">Radiation Therapy</option><option value="immunotherapy">Immunotherapy</option><option value="targeted_therapy">Targeted Therapy</option><option value="hormone_therapy">Hormone Therapy</option><option value="stem_cell_transplant">Stem Cell Transplant</option><option value="other">Other</option></select></div>
           <div className="form-group"><label>Regimen</label><input value={form.regimen_name} onChange={(e) => setForm({ ...form, regimen_name: e.target.value })} /></div>
-          <div className="form-group"><label>Start Date</label><input type="date" value={form.start_date} onChange={(e) => setForm({ ...form, start_date: e.target.value })} required /></div>
-          <div className="form-group"><label>End Date</label><input type="date" value={form.end_date} onChange={(e) => setForm({ ...form, end_date: e.target.value })} /></div>
+          <div className="form-group"><label>Start Date</label><DateInput value={form.start_date} onChange={v => setForm({ ...form, start_date: v })} required /></div>
+          <div className="form-group"><label>End Date</label><DateInput value={form.end_date} onChange={v => setForm({ ...form, end_date: v })} /></div>
           <div className="form-group"><label>Response</label><select value={form.response} onChange={(e) => setForm({ ...form, response: e.target.value })}><option value="complete_response">Complete Response</option><option value="partial_response">Partial Response</option><option value="stable_disease">Stable Disease</option><option value="progression">Progression</option><option value="unknown">Unknown/Not Assessed</option></select></div>
           <div className="form-group" style={{ gridColumn: '1 / -1' }}><label>Notes</label><textarea value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} /></div>
           <div className="form-actions" style={{ gridColumn: '1 / -1' }}><button className="btn btn-primary" disabled={saving || !form.oncology_record_id}>{saving ? 'Saving...' : editingId ? 'Update Treatment' : 'Save Treatment & Notify Patient'}</button></div>
@@ -213,7 +214,7 @@ export default function TreatmentListPage() {
 
       <CrudModal open={rescheduleOpen} title="Reschedule Treatment" onClose={closeReschedule}>
         <form onSubmit={submitReschedule} className="form-grid">
-          <div className="form-group"><label>New start date</label><input type="date" value={rescheduleDate} onChange={(e) => setRescheduleDate(e.target.value)} required /></div>
+          <div className="form-group"><label>New start date</label><DateInput value={rescheduleDate} onChange={v => setRescheduleDate(v)} required /></div>
           <div className="form-group" style={{ gridColumn: '1 / -1' }}><label>Notes</label><textarea value={rescheduleNotes} onChange={(e) => setRescheduleNotes(e.target.value)} placeholder="Why is this being rescheduled?" /></div>
           <div className="form-actions" style={{ gridColumn: '1 / -1' }}><button className="btn btn-primary">Save Reschedule</button></div>
         </form>

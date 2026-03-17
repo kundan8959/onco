@@ -1,0 +1,135 @@
+.hospital-switcher {
+  position: relative;
+}
+
+.hospital-switcher-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 13px;
+  border-radius: var(--r2);
+  border: 1px solid var(--border2);
+  background: var(--surface2);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+.hospital-switcher-trigger:hover {
+  background: color-mix(in srgb, var(--accent) 10%, var(--surface2));
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.hospital-switcher-chevron {
+  font-size: 10px;
+  transition: transform 0.18s;
+}
+.hospital-switcher-chevron.open {
+  transform: rotate(180deg);
+}
+
+.hospital-switcher-name {
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Dropdown */
+.hospital-switcher-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 260px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--r3);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 8px;
+  z-index: 9000;
+  animation: hsSlideDown 0.18s ease;
+}
+
+@keyframes hsSlideDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hospital-switcher-label {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text3);
+  padding: 4px 10px 8px;
+}
+
+.hospital-switcher-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: var(--r2);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+}
+.hospital-switcher-option:hover {
+  background: var(--surface2);
+  border-color: var(--border);
+}
+.hospital-switcher-option.active {
+  background: color-mix(in srgb, var(--accent) 10%, var(--surface2));
+  border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.hospital-switcher-option-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--r);
+  background: color-mix(in srgb, var(--accent) 14%, var(--surface2));
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  flex-shrink: 0;
+  font-size: 14px;
+}
+
+.hospital-switcher-option-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.hospital-switcher-option-name {
+  font-weight: 600;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hospital-switcher-option-mrn {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.hospital-switcher-check {
+  color: var(--accent);
+  font-size: 12px;
+  flex-shrink: 0;
+}

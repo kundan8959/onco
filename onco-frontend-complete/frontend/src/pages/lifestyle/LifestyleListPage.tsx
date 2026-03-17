@@ -4,6 +4,7 @@ import { lifestyleApi, patientsApi } from '../../api';
 import CrudModal from '../../components/CrudModal';
 import PatientSearchPicker from '../../components/PatientSearchPicker';
 import { usePermissions } from '../../hooks/usePermissions';
+import DateInput from '../../components/DateInput';
 
 const emptyForm = {
   patient_id: '',
@@ -120,7 +121,7 @@ export default function LifestyleListPage() {
         <form onSubmit={submit} className="form-grid">
           <PatientSearchPicker value={selectedPatient} onSelect={(patient) => { setSelectedPatient(patient); setForm({ ...form, patient_id: patient?.id || '' }); }} required />
           <div className="form-group"><label>Smoking Status</label><select value={form.smoking_status} onChange={(e) => setForm({ ...form, smoking_status: e.target.value })}><option value="never">Never Smoked</option><option value="former">Former Smoker</option><option value="current_light">Current - Light (&lt;10/day)</option><option value="current_moderate">Current - Moderate (10-20/day)</option><option value="current_heavy">Current - Heavy (&gt;20/day)</option></select></div>
-          <div className="form-group"><label>Quit Date (if former)</label><input type="date" value={form.smoking_quit_date || ''} onChange={(e) => setForm({ ...form, smoking_quit_date: e.target.value })} /></div>
+          <div className="form-group"><label>Quit Date (if former)</label><DateInput value={form.smoking_quit_date || ''} onChange={v => setForm({ ...form, smoking_quit_date: v })} /></div>
           <div className="form-group"><label>Alcohol Use</label><select value={form.alcohol_use || 'never'} onChange={(e) => setForm({ ...form, alcohol_use: e.target.value })}><option value="never">Never</option><option value="occasional">Occasional (1-2/week)</option><option value="moderate">Moderate (3-7/week)</option><option value="heavy">Heavy (&gt;7/week)</option></select></div>
           <div className="form-group"><label>Physical Activity</label><select value={form.physical_activity || 'sedentary'} onChange={(e) => setForm({ ...form, physical_activity: e.target.value })}><option value="sedentary">Sedentary (little to no exercise)</option><option value="light">Light (1-2 days/week)</option><option value="moderate">Moderate (3-4 days/week)</option><option value="active">Active (5-6 days/week)</option><option value="very_active">Very Active (daily)</option></select></div>
           <div className="form-group"><label>Exercise Type</label><input value={form.exercise_type || ''} onChange={(e) => setForm({ ...form, exercise_type: e.target.value })} placeholder="e.g. walking, gym, yoga" /></div>

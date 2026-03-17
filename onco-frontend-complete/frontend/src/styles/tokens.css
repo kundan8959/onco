@@ -1,11 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,400&family=DM+Sans:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700&family=Sora:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=Anybody:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Unbounded:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
 
 /* ══════════════════════════════════════════════════════════
- ONCOCARE EHR 2026 — 12-THEME DESIGN SYSTEM
- 1 nebula · 2 aurora · 3 void
- 4 dusk · 5 ocean · 6 ember
- 7 forest · 8 arctic · 9 chrome
- 10 rose · 11 slate · 12 pearl
+ ONCOCARE EHR 2026 — 18-THEME DESIGN SYSTEM
+ DARK (9):   1 nebula · 2 aurora · 3 void
+             4 dusk · 5 ocean · 6 ember
+             7 forest · 8 arctic · 9 chrome
+ LIGHT (10): 10 rose · 11 slate · 12 pearl
+             13 mint · 14 sand · 15 sky
+             16 ivory · 17 sage · 18 coral
+             19 cobalt
 ══════════════════════════════════════════════════════════ */
 
 /* ── RESET ── */
@@ -415,6 +418,237 @@ button, input, select, textarea { font: inherit; }
 
 
 /* ══════════════════════════════════════════════════════════
+ THEME 13: MINT — Fresh clinical green light
+ Vibe: clean pediatric ward, fresh & vibrant healthcare
+══════════════════════════════════════════════════════════ */
+[data-theme="mint"] {
+ --font-display: 'Plus Jakarta Sans', sans-serif;
+ --font-body: 'Plus Jakarta Sans', sans-serif;
+ --bg: #f0fdf8;
+ --bg2: #e6f9f2;
+ --bg3: #d3f2e8;
+ --surface: rgba(255,255,255,0.92);
+ --surface2: rgba(255,255,255,1.00);
+ --surface3: rgba(240,253,248,0.85);
+ --border: rgba(5,150,105,0.14);
+ --border2: rgba(5,150,105,0.28);
+ --text: #052e1c;
+ --text2: #0f4d30;
+ --muted: #4a8c6a;
+ --text3: #80bfa0;
+ --accent: #059669;
+ --accent2: #047857;
+ --accent-glow: rgba(5,150,105,0.22);
+ --blue: #0ea5e9; --green: #059669; --amber: #d97706; --red: #ef4444; --purple: #8b5cf6;
+ --sa: #8b5cf6; --sa2: #7c3aed; --sa-bg: rgba(139,92,246,0.08);
+ --ho: #0ea5e9; --ho2: #0284c7; --ho-bg: rgba(14,165,233,0.08);
+ --pa: #059669; --pa2: #047857; --pa-bg: rgba(5,150,105,0.08);
+ --line: rgba(5,150,105,0.12);
+ --panel: rgba(255,255,255,0.85); --panel-2: rgba(255,255,255,0.98); --panel-3: rgba(240,253,248,0.80);
+ --r: 10px; --r2: 14px; --r3: 20px; --r4: 28px;
+ --shadow: 0 4px 20px rgba(5,150,105,0.10); --shadow-lg: 0 12px 40px rgba(5,150,105,0.16);
+ --is-dark: 0;
+}
+
+/* ══════════════════════════════════════════════════════════
+ THEME 14: SAND — Warm earthy neutral light
+ Vibe: Mediterranean wellness spa, natural clinical warmth
+══════════════════════════════════════════════════════════ */
+[data-theme="sand"] {
+ --font-display: 'Fraunces', serif;
+ --font-body: 'DM Sans', sans-serif;
+ --bg: #faf7f2;
+ --bg2: #f5f0e8;
+ --bg3: #ede6d8;
+ --surface: rgba(255,255,255,0.90);
+ --surface2: rgba(255,255,255,1.00);
+ --surface3: rgba(250,247,242,0.85);
+ --border: rgba(180,120,50,0.14);
+ --border2: rgba(180,120,50,0.28);
+ --text: #2c1a08;
+ --text2: #4a2e10;
+ --muted: #9a7040;
+ --text3: #c8a878;
+ --accent: #b45309;
+ --accent2: #92400e;
+ --accent-glow: rgba(180,83,9,0.20);
+ --blue: #0ea5e9; --green: #059669; --amber: #d97706; --red: #ef4444; --purple: #8b5cf6;
+ --sa: #8b5cf6; --sa2: #7c3aed; --sa-bg: rgba(139,92,246,0.08);
+ --ho: #0ea5e9; --ho2: #0284c7; --ho-bg: rgba(14,165,233,0.08);
+ --pa: #d97706; --pa2: #b45309; --pa-bg: rgba(217,119,6,0.08);
+ --line: rgba(180,120,50,0.12);
+ --panel: rgba(255,255,255,0.82); --panel-2: rgba(255,255,255,0.96); --panel-3: rgba(250,247,242,0.80);
+ --r: 12px; --r2: 16px; --r3: 22px; --r4: 30px;
+ --shadow: 0 4px 20px rgba(140,90,20,0.10); --shadow-lg: 0 12px 40px rgba(140,90,20,0.16);
+ --is-dark: 0;
+}
+
+/* ══════════════════════════════════════════════════════════
+ THEME 15: SKY — Bright cerulean azure light
+ Vibe: airy modern hospital, daytime clarity, open air
+══════════════════════════════════════════════════════════ */
+[data-theme="sky"] {
+ --font-display: 'Outfit', sans-serif;
+ --font-body: 'Outfit', sans-serif;
+ --bg: #f0f8ff;
+ --bg2: #e4f3fd;
+ --bg3: #d4ecfa;
+ --surface: rgba(255,255,255,0.92);
+ --surface2: rgba(255,255,255,1.00);
+ --surface3: rgba(240,248,255,0.85);
+ --border: rgba(2,132,199,0.14);
+ --border2: rgba(2,132,199,0.28);
+ --text: #0c1a26;
+ --text2: #163248;
+ --muted: #4a86aa;
+ --text3: #88b8d0;
+ --accent: #0ea5e9;
+ --accent2: #0284c7;
+ --accent-glow: rgba(14,165,233,0.22);
+ --blue: #0ea5e9; --green: #059669; --amber: #d97706; --red: #ef4444; --purple: #8b5cf6;
+ --sa: #8b5cf6; --sa2: #7c3aed; --sa-bg: rgba(139,92,246,0.08);
+ --ho: #0ea5e9; --ho2: #0284c7; --ho-bg: rgba(14,165,233,0.08);
+ --pa: #10b981; --pa2: #059669; --pa-bg: rgba(16,185,129,0.08);
+ --line: rgba(2,132,199,0.12);
+ --panel: rgba(255,255,255,0.85); --panel-2: rgba(255,255,255,0.98); --panel-3: rgba(240,248,255,0.80);
+ --r: 10px; --r2: 14px; --r3: 20px; --r4: 28px;
+ --shadow: 0 4px 20px rgba(2,132,199,0.10); --shadow-lg: 0 12px 40px rgba(2,132,199,0.16);
+ --is-dark: 0;
+}
+
+/* ══════════════════════════════════════════════════════════
+ THEME 16: IVORY — Off-white editorial serif light
+ Vibe: luxury private clinic, expensive editorial journal
+══════════════════════════════════════════════════════════ */
+[data-theme="ivory"] {
+ --font-display: 'Crimson Pro', serif;
+ --font-body: 'DM Sans', sans-serif;
+ --bg: #fefcf7;
+ --bg2: #faf6ed;
+ --bg3: #f4eedc;
+ --surface: rgba(255,255,255,0.95);
+ --surface2: rgba(255,255,255,1.00);
+ --surface3: rgba(254,252,247,0.85);
+ --border: rgba(30,41,59,0.12);
+ --border2: rgba(30,41,59,0.24);
+ --text: #1a1208;
+ --text2: #2e2010;
+ --muted: #7a6a50;
+ --text3: #b0a090;
+ --accent: #1e293b;
+ --accent2: #0f172a;
+ --accent-glow: rgba(30,41,59,0.14);
+ --blue: #3b82f6; --green: #059669; --amber: #d97706; --red: #ef4444; --purple: #8b5cf6;
+ --sa: #8b5cf6; --sa2: #7c3aed; --sa-bg: rgba(139,92,246,0.08);
+ --ho: #3b82f6; --ho2: #2563eb; --ho-bg: rgba(59,130,246,0.08);
+ --pa: #059669; --pa2: #047857; --pa-bg: rgba(5,150,105,0.08);
+ --line: rgba(30,41,59,0.10);
+ --panel: rgba(255,255,255,0.88); --panel-2: rgba(255,255,255,1.00); --panel-3: rgba(254,252,247,0.80);
+ --r: 8px; --r2: 12px; --r3: 18px; --r4: 26px;
+ --shadow: 0 4px 20px rgba(30,20,8,0.08); --shadow-lg: 0 12px 40px rgba(30,20,8,0.14);
+ --is-dark: 0;
+}
+
+/* ══════════════════════════════════════════════════════════
+ THEME 17: SAGE — Dusty muted botanical green light
+ Vibe: holistic wellness center, herbalist apothecary calm
+══════════════════════════════════════════════════════════ */
+[data-theme="sage"] {
+ --font-display: 'Sora', sans-serif;
+ --font-body: 'Sora', sans-serif;
+ --bg: #f4f7f4;
+ --bg2: #e8eee8;
+ --bg3: #dce5dc;
+ --surface: rgba(255,255,255,0.90);
+ --surface2: rgba(255,255,255,1.00);
+ --surface3: rgba(244,247,244,0.85);
+ --border: rgba(74,114,86,0.14);
+ --border2: rgba(74,114,86,0.28);
+ --text: #162016;
+ --text2: #243424;
+ --muted: #607860;
+ --text3: #98b898;
+ --accent: #4d7c60;
+ --accent2: #3a5e47;
+ --accent-glow: rgba(77,124,96,0.20);
+ --blue: #0ea5e9; --green: #4d7c60; --amber: #ca8a04; --red: #ef4444; --purple: #7c3aed;
+ --sa: #7c3aed; --sa2: #6d28d9; --sa-bg: rgba(124,58,237,0.08);
+ --ho: #0ea5e9; --ho2: #0284c7; --ho-bg: rgba(14,165,233,0.08);
+ --pa: #4d7c60; --pa2: #3a5e47; --pa-bg: rgba(77,124,96,0.08);
+ --line: rgba(74,114,86,0.12);
+ --panel: rgba(255,255,255,0.82); --panel-2: rgba(255,255,255,0.96); --panel-3: rgba(244,247,244,0.80);
+ --r: 10px; --r2: 14px; --r3: 20px; --r4: 28px;
+ --shadow: 0 4px 20px rgba(50,80,55,0.10); --shadow-lg: 0 12px 40px rgba(50,80,55,0.16);
+ --is-dark: 0;
+}
+
+/* ══════════════════════════════════════════════════════════
+ THEME 18: CORAL — Vibrant energy orange-red light
+ Vibe: energetic patient engagement, modern mobile-first
+══════════════════════════════════════════════════════════ */
+[data-theme="coral"] {
+ --font-display: 'Anybody', sans-serif;
+ --font-body: 'Outfit', sans-serif;
+ --bg: #fff5f0;
+ --bg2: #feeee5;
+ --bg3: #fde2d4;
+ --surface: rgba(255,255,255,0.92);
+ --surface2: rgba(255,255,255,1.00);
+ --surface3: rgba(255,245,240,0.85);
+ --border: rgba(234,88,12,0.14);
+ --border2: rgba(234,88,12,0.28);
+ --text: #2c0e04;
+ --text2: #4a1a08;
+ --muted: #b26040;
+ --text3: #d89070;
+ --accent: #f97316;
+ --accent2: #ea580c;
+ --accent-glow: rgba(249,115,22,0.22);
+ --blue: #3b82f6; --green: #10b981; --amber: #f59e0b; --red: #ef4444; --purple: #8b5cf6;
+ --sa: #8b5cf6; --sa2: #7c3aed; --sa-bg: rgba(139,92,246,0.08);
+ --ho: #3b82f6; --ho2: #2563eb; --ho-bg: rgba(59,130,246,0.08);
+ --pa: #f97316; --pa2: #ea580c; --pa-bg: rgba(249,115,22,0.08);
+ --line: rgba(234,88,12,0.12);
+ --panel: rgba(255,255,255,0.85); --panel-2: rgba(255,255,255,0.98); --panel-3: rgba(255,245,240,0.80);
+ --r: 14px; --r2: 18px; --r3: 24px; --r4: 32px;
+ --shadow: 0 4px 20px rgba(200,60,10,0.10); --shadow-lg: 0 12px 40px rgba(200,60,10,0.16);
+ --is-dark: 0;
+}
+
+/* ══════════════════════════════════════════════════════════
+ THEME 19: COBALT — Rich royal blue light
+ Vibe: modern medical portal, confident trust, enterprise clarity
+══════════════════════════════════════════════════════════ */
+[data-theme="cobalt"] {
+ --font-display: 'Plus Jakarta Sans', sans-serif;
+ --font-body: 'Inter Tight', sans-serif;
+ --bg: #f0f4ff;
+ --bg2: #e5ecff;
+ --bg3: #d6e1ff;
+ --surface: rgba(255,255,255,0.93);
+ --surface2: rgba(255,255,255,1.00);
+ --surface3: rgba(240,244,255,0.85);
+ --border: rgba(37,99,235,0.14);
+ --border2: rgba(37,99,235,0.28);
+ --text: #08112e;
+ --text2: #122050;
+ --muted: #4060b0;
+ --text3: #7090d0;
+ --accent: #2563eb;
+ --accent2: #1d4ed8;
+ --accent-glow: rgba(37,99,235,0.22);
+ --blue: #2563eb; --green: #059669; --amber: #d97706; --red: #ef4444; --purple: #7c3aed;
+ --sa: #7c3aed; --sa2: #6d28d9; --sa-bg: rgba(124,58,237,0.08);
+ --ho: #2563eb; --ho2: #1d4ed8; --ho-bg: rgba(37,99,235,0.08);
+ --pa: #059669; --pa2: #047857; --pa-bg: rgba(5,150,105,0.08);
+ --line: rgba(37,99,235,0.12);
+ --panel: rgba(255,255,255,0.85); --panel-2: rgba(255,255,255,0.98); --panel-3: rgba(240,244,255,0.80);
+ --r: 10px; --r2: 14px; --r3: 20px; --r4: 28px;
+ --shadow: 0 4px 20px rgba(20,50,200,0.10); --shadow-lg: 0 12px 40px rgba(20,50,200,0.18);
+ --is-dark: 0;
+}
+
+/* ══════════════════════════════════════════════════════════
  BASE STYLES (theme-aware)
 ══════════════════════════════════════════════════════════ */
 html, body, #root { min-height: 100%; background: var(--bg); }
@@ -491,6 +725,27 @@ body {
 [data-theme="pearl"] body, [data-theme="pearl"] #root {
  background: linear-gradient(135deg, #f6f7fb, #edeef6);
 }
+[data-theme="mint"] body, [data-theme="mint"] #root {
+ background: linear-gradient(135deg, #f0fdf8, #e6f9f2);
+}
+[data-theme="sand"] body, [data-theme="sand"] #root {
+ background: linear-gradient(135deg, #faf7f2, #f5f0e8);
+}
+[data-theme="sky"] body, [data-theme="sky"] #root {
+ background: linear-gradient(135deg, #f0f8ff, #e4f3fd);
+}
+[data-theme="ivory"] body, [data-theme="ivory"] #root {
+ background: linear-gradient(135deg, #fefcf7, #faf6ed);
+}
+[data-theme="sage"] body, [data-theme="sage"] #root {
+ background: linear-gradient(135deg, #f4f7f4, #e8eee8);
+}
+[data-theme="coral"] body, [data-theme="coral"] #root {
+ background: linear-gradient(135deg, #fff5f0, #feeee5);
+}
+[data-theme="cobalt"] body, [data-theme="cobalt"] #root {
+ background: linear-gradient(135deg, #f0f4ff, #e5ecff);
+}
 
 /* Noise grain overlay for dark themes */
 [data-theme="nebula"] body::before,
@@ -540,5 +795,12 @@ body {
 [data-theme="rose"] .app-ambient { display: none; }
 [data-theme="slate"] .app-ambient { display: none; }
 [data-theme="pearl"] .app-ambient { display: none; }
+[data-theme="mint"] .app-ambient { display: none; }
+[data-theme="sand"] .app-ambient { display: none; }
+[data-theme="sky"] .app-ambient { display: none; }
+[data-theme="ivory"] .app-ambient { display: none; }
+[data-theme="sage"] .app-ambient { display: none; }
+[data-theme="coral"] .app-ambient { display: none; }
+[data-theme="cobalt"] .app-ambient { display: none; }
 @keyframes blobFloat { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(28px,22px) scale(1.07); } }
 

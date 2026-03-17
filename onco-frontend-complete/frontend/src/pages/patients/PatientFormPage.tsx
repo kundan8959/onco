@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { patientsApi } from '../../api';
+import DateInput from '../../components/DateInput';
 
 const GENDER_CHOICES = [
   { value: 'M', label: 'Male' },
@@ -104,6 +105,7 @@ export default function PatientFormPage() {
   const [form, setForm] = useState<any>(emptyPatient);
   const [errors, setErrors] = useState<any>({});
   const [saving, setSaving] = useState(false);
+  const [inviteSent, setInviteSent] = useState('');
 
   useEffect(() => {
     if (isEdit) {
@@ -129,7 +131,11 @@ export default function PatientFormPage() {
         navigate(`/patients/${id}`);
       } else {
         const res = await patientsApi.create(buildCreatePayload(form));
-        navigate(`/patients/${res.data.id}`);
+        const data = res.data;
+        if (data.email) {
+          setInviteSent(`Patient registered. An invite email has been sent to ${data.email} so they can set their portal password.`);
+        }
+        navigate(`/patients/${data.id}`);
       }
     } catch (err: any) {
       if (err.response?.data) setErrors(err.response.data);
@@ -140,13 +146,18 @@ export default function PatientFormPage() {
 
   return (
     <div>
-      <div className="patient-hero-card compact-hero-card">
+      {inviteSent && (
+        <div className="success-banner" style={{ marginBottom: 16 }}>
+          <i className="fas fa-envelope-circle-check" style={{ marginRight: 8 }} />
+          {inviteSent}
+        </div>
+      )}
+
         <div>
           <span className="eyebrow">Patient intake</span>
           <h1>{isEdit ? 'Edit Patient Profile' : 'New Patient Registration'}</h1>
           <p>Complete the patient profile below. All required fields are marked with an asterisk.</p>
         </div>
-      </div>
 
       <div className="card premium-form-card">
         <form onSubmit={handleSubmit}>
@@ -164,7 +175,7 @@ export default function PatientFormPage() {
             </div>
             <div className="form-group">
               <label>Date of Birth *</label>
-              <input name="date_of_birth" type="date" value={form.date_of_birth || ''} onChange={handleChange} required />
+              <DateInput value={form.date_of_birth || ''} onChange={v => setForm((prev: any) => ({ ...prev, date_of_birth: v }))} required />
               {errors.date_of_birth && <span className="field-error">{errors.date_of_birth}</span>}
             </div>
             <div className="form-group">

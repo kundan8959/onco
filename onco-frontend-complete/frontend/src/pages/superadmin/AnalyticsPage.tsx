@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { adminUsersApi, exportsApi, overviewApi } from '../../api';
+import DateInput from '../../components/DateInput';
 
 type OverviewPayload = {
   metrics?: { label: string; value: string; tone?: string }[];
@@ -74,8 +75,8 @@ export default function AnalyticsPage() {
       <div className="card" style={{ marginBottom: 16 }}>
         <div className="form-grid">
           <div className="form-group"><label>Search cohort table</label><input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Cancer type, metric..." /></div>
-          <div className="form-group"><label>From date</label><input type="date" value={fromDate} onChange={(e) => setFromDate(e.target.value)} /></div>
-          <div className="form-group"><label>To date</label><input type="date" value={toDate} onChange={(e) => setToDate(e.target.value)} /></div>
+          <div className="form-group"><label>From date</label><DateInput value={fromDate} onChange={v => setFromDate(v)} /></div>
+          <div className="form-group"><label>To date</label><DateInput value={toDate} onChange={v => setToDate(v)} /></div>
           <div className="form-group"><label>Hospital slice</label><select value={hospitalSlice} onChange={(e) => setHospitalSlice(e.target.value)}><option value="all">All hospitals</option>{hospitals.map((h) => <option key={h.id} value={h.hospital_name || h.username}>{h.hospital_name || h.username}</option>)}</select></div>
         </div>
       </div>

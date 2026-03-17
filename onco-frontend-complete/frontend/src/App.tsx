@@ -32,6 +32,7 @@ import DashboardPage from './pages/dashboard/DashboardPage';
 import HospitalsPage from './pages/superadmin/HospitalsPage';
 import UsersPage from './pages/superadmin/UsersPage';
 import AnalyticsPage from './pages/superadmin/AnalyticsPage';
+import SuperadminDashboardPage from './pages/superadmin/SuperadminDashboardPage';
 import ThemePicker from './components/ThemePicker';
 import RoleGuard from './components/RoleGuard';
 import PatientDashboard from './pages/patient-portal/PatientDashboard';
@@ -40,6 +41,7 @@ import PatientDocumentsPage from './pages/patient-portal/PatientDocumentsPage';
 import PatientHealthMetrics from './pages/patient-portal/PatientHealthMetrics';
 import PatientChemoSchedulePage from './pages/patient-portal/PatientChemoSchedulePage';
 import PatientTreatmentPlanPage from './pages/patient-portal/PatientTreatmentPlanPage';
+import SetPasswordPage from './pages/SetPasswordPage';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
  const { user, loading } = useAuth();
@@ -71,6 +73,7 @@ function AppInner() {
  <ThemePicker />
  <Routes>
  <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
+ <Route path="/set-password" element={<PublicRoute><SetPasswordPage /></PublicRoute>} />
  <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
  <Route index element={<RoleAwareHome />} />
 
@@ -100,6 +103,7 @@ function AppInner() {
  <Route path="symptoms" element={<SymptomListPage />} />
  <Route path="analytics/drilldown" element={<AnalyticsDrilldownPage />} />
  <Route path="audit/logs" element={<AuditLogPage />} />
+ <Route path="superadmin/dashboard" element={<RoleGuard allowed={['superadmin']}><SuperadminDashboardPage /></RoleGuard>} />
  <Route path="superadmin/hospitals" element={<RoleGuard allowed={['superadmin']}><HospitalsPage /></RoleGuard>} />
  <Route path="superadmin/users" element={<RoleGuard allowed={['superadmin']}><UsersPage /></RoleGuard>} />
  <Route path="superadmin/analytics" element={<RoleGuard allowed={['superadmin']}><AnalyticsPage /></RoleGuard>} />

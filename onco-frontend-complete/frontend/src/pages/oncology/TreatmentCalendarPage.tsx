@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { oncologyApi } from '../../api';
 import CrudModal from '../../components/CrudModal';
+import DateInput from '../../components/DateInput';
 
 export default function TreatmentCalendarPage() {
   const [items, setItems] = useState<any[]>([]);
@@ -153,7 +154,7 @@ export default function TreatmentCalendarPage() {
 
       <CrudModal open={rescheduleOpen} title="Reschedule Treatment" onClose={closeReschedule}>
         <form onSubmit={submitReschedule} className="form-grid">
-          <div className="form-group"><label>New treatment date</label><input type="date" value={rescheduleDate} onChange={(e) => setRescheduleDate(e.target.value)} required /></div>
+          <div className="form-group"><label>New treatment date</label><DateInput value={rescheduleDate} onChange={v => setRescheduleDate(v)} required /></div>
           <div className="form-group" style={{ gridColumn: '1 / -1' }}><label>Notes</label><textarea value={rescheduleNotes} onChange={(e) => setRescheduleNotes(e.target.value)} placeholder="Reason for reschedule" /></div>
           <div className="form-actions" style={{ gridColumn: '1 / -1' }}><button className="btn btn-primary" disabled={saving}>{saving ? 'Saving...' : 'Save Reschedule'}</button></div>
         </form>

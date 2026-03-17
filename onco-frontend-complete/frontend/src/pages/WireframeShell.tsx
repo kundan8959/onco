@@ -65,6 +65,17 @@ const fullFlowLinkMap: Record<string, string> = {
 };
 
 const actionLinkMap: Record<string, string> = {
+  'Add Hospital': '/superadmin/hospitals',
+  'Create Tenant': '/superadmin/hospitals',
+  'Invite Hospital Admin': '/superadmin/hospitals',
+  'Export Registry': '/superadmin/hospitals',
+  'Create User': '/superadmin/users',
+  'Filter by Role': '/superadmin/users',
+  'Reset Password': '/superadmin/users',
+  'Filter Events': '/superadmin/audit',
+  'Export Logs': '/superadmin/audit',
+  'Investigate Failures': '/superadmin/audit',
+  'Download Analytics': '/superadmin/analytics',
   'Register Patient': '/patients/add',
   'Add Patient': '/patients/add',
   'Create Record': '/oncology/add',

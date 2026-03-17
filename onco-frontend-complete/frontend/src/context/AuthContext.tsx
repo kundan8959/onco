@@ -15,7 +15,12 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
+  /** The currently active patient record (scoped to selected hospital). */
   patient: any | null;
+  /** All patient records across every hospital this patient is registered at. */
+  patientRecords: any[];
+  /** Switch the active hospital context by patient row id. */
+  setActivePatientById: (id: number) => void;
   loading: boolean;
   isAuthenticated: boolean;
   login: (username: string, password: string) => Promise<void>;
@@ -26,6 +31,8 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType>({
   user: null,
   patient: null,
+  patientRecords: [],
+  setActivePatientById: () => {},
   loading: true,
   isAuthenticated: false,
   login: async () => {},
@@ -35,20 +42,37 @@ const AuthContext = createContext<AuthContextType>({
 
 export const useAuth = () => useContext(AuthContext);
 
+const ACTIVE_PATIENT_KEY = 'oncocare-active-patient-id';
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [patient, setPatient] = useState<any | null>(null);
+  const [patientRecords, setPatientRecords] = useState<any[]>([]);
+  const [activePatient, setActivePatient] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
+
+  const resolveActive = useCallback((records: any[]) => {
+    if (records.length === 0) return null;
+    const savedId = Number(localStorage.getItem(ACTIVE_PATIENT_KEY));
+    const saved = savedId ? records.find((r) => r.id === savedId) : null;
+    return saved || records[0];
+  }, []);
 
   const fetchMe = useCallback(async () => {
     try {
       const { data } = await authApi.me();
       setUser(data.user);
-      setPatient(data.patient || null);
+
+      // patient_records is the full list; fall back gracefully if backend is older.
+      const records: any[] = data.patient_records || (data.patient ? [data.patient] : []);
+      setPatientRecords(records);
+
+      const active = resolveActive(records);
+      setActivePatient(active);
+
       // Keep localStorage in sync for token refresh interceptor reference
       localStorage.setItem('user', JSON.stringify(data.user));
-      if (data.patient) {
-        localStorage.setItem('patient', JSON.stringify(data.patient));
+      if (active) {
+        localStorage.setItem('patient', JSON.stringify(active));
       } else {
         localStorage.removeItem('patient');
       }
@@ -58,10 +82,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       localStorage.removeItem('refresh_token');
       localStorage.removeItem('user');
       localStorage.removeItem('patient');
+      localStorage.removeItem(ACTIVE_PATIENT_KEY);
       setUser(null);
-      setPatient(null);
+      setPatientRecords([]);
+      setActivePatient(null);
     }
-  }, []);
+  }, [resolveActive]);
 
   useEffect(() => {
     const token = localStorage.getItem('access_token');
@@ -85,16 +111,36 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem('refresh_token');
     localStorage.removeItem('user');
     localStorage.removeItem('patient');
+    localStorage.removeItem(ACTIVE_PATIENT_KEY);
     setUser(null);
-    setPatient(null);
+    setPatientRecords([]);
+    setActivePatient(null);
   };
+
+  const setActivePatientById = useCallback((id: number) => {
+    const record = patientRecords.find((r) => r.id === id);
+    if (!record) return;
+    setActivePatient(record);
+    localStorage.setItem(ACTIVE_PATIENT_KEY, String(id));
+    localStorage.setItem('patient', JSON.stringify(record));
+  }, [patientRecords]);
 
   const refreshProfile = useCallback(async () => {
     await fetchMe();
   }, [fetchMe]);
 
   return (
-    <AuthContext.Provider value={{ user, patient, loading, isAuthenticated: !!user, login, logout, refreshProfile }}>
+    <AuthContext.Provider value={{
+      user,
+      patient: activePatient,
+      patientRecords,
+      setActivePatientById,
+      loading,
+      isAuthenticated: !!user,
+      login,
+      logout,
+      refreshProfile,
+    }}>
       {children}
     </AuthContext.Provider>
   );

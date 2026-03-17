@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { oncologyApi, patientsApi } from '../../api';
 import PatientSearchPicker from '../../components/PatientSearchPicker';
+import DateInput from '../../components/DateInput';
 
 // All choices exactly matching Django oncology/models.py
 const CANCER_TYPES = [
@@ -184,6 +185,13 @@ const emptyForm = {
   is_primary: true,
 };
 
+const FG = ({ label, required, children, full }: any) => (
+  <div className="form-group" style={{ gridColumn: full ? '1 / -1' : undefined }}>
+    <label>{label}{required && ' *'}</label>
+    {children}
+  </div>
+);
+
 export default function RecordFormPage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -218,7 +226,7 @@ export default function RecordFormPage() {
     try {
       const payload = {
         ...form,
-        patient: Number(form.patient_id),
+        patient_id: Number(form.patient_id),
         diagnosis_confirmed: !!form.diagnosis_confirmed,
         lymph_node_involvement: !!form.lymph_node_involvement,
         metastasis_present: !!form.metastasis_present,
@@ -242,13 +250,6 @@ export default function RecordFormPage() {
       setSaving(false);
     }
   };
-
-  const FG = ({ label, required, children, full }: any) => (
-    <div className="form-group" style={{ gridColumn: full ? '1 / -1' : undefined }}>
-      <label>{label}{required && ' *'}</label>
-      {children}
-    </div>
-  );
 
   return (
     <div>
@@ -295,7 +296,7 @@ export default function RecordFormPage() {
             </FG>
 
             <FG label="Diagnosis Date *">
-              <input type="date" value={form.diagnosis_date || ''} onChange={e => set('diagnosis_date', e.target.value)} required />
+              <DateInput value={form.diagnosis_date || ''} onChange={v => set('diagnosis_date', v)} required />
             </FG>
 
             <FG label="Confirmed By">

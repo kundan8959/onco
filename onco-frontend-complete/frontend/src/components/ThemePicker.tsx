@@ -17,6 +17,7 @@ const LIGHT_THEMES = [
  { id: 'rose', name: 'Rose', tag: 'Warm blush light', swatch: 'swatch-rose' },
  { id: 'slate', name: 'Slate', tag: 'Corporate precision', swatch: 'swatch-slate' },
  { id: 'pearl', name: 'Pearl', tag: 'Soft lavender light', swatch: 'swatch-pearl' },
+ { id: 'cobalt', name: 'Cobalt', tag: 'Royal blue light', swatch: 'swatch-cobalt' },
 ] as const;
 
 type ThemeId = (typeof DARK_THEMES)[number]['id'] | (typeof LIGHT_THEMES)[number]['id'];
@@ -55,7 +56,7 @@ export default function ThemePicker() {
  <div className="theme-picker-panel">
  <div className="theme-picker-header">
  <span className="theme-picker-title">Appearance</span>
- <span className="theme-picker-subtitle">12 themes · 2026</span>
+ <span className="theme-picker-subtitle">13 themes · 2026</span>
  </div>
 
  <div className="theme-picker-group-label">Dark</div>

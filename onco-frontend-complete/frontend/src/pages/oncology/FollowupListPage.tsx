@@ -9,6 +9,7 @@ import { useLoading } from '../../hooks/useLoading';
 import { useAppDispatch } from '../../store/hooks';
 import { showNotice } from '../../store/uiSlice';
 import { usePermissions } from '../../hooks/usePermissions';
+import DateInput from '../../components/DateInput';
 
 const emptyForm = {
   oncology_record_id: '',
@@ -187,7 +188,7 @@ export default function FollowupListPage() {
             <label>Linked Oncology Record</label>
             <span>{linkedRecord ? `${linkedRecord.cancer_type} · ${linkedRecord.clinical_stage || linkedRecord.status || 'Active'}` : 'No oncology record found yet'}</span>
           </div>
-          <div className="form-group"><label>Follow-up Date</label><input type="date" value={form.followup_date} onChange={(e) => setForm({ ...form, followup_date: e.target.value })} required /></div>
+          <div className="form-group"><label>Follow-up Date</label><DateInput value={form.followup_date} onChange={v => setForm({ ...form, followup_date: v })} required /></div>
           <div className="form-group checkbox-group"><label><input type="checkbox" checked={form.recurrence_detected} onChange={(e) => setForm({ ...form, recurrence_detected: e.target.checked })} /> Recurrence detected</label></div>
           <div className="form-group" style={{ gridColumn: '1 / -1' }}><label>Imaging Summary</label><textarea value={form.imaging_summary} onChange={(e) => setForm({ ...form, imaging_summary: e.target.value })} /></div>
           <div className="form-group" style={{ gridColumn: '1 / -1' }}><label>Tumor Marker Summary</label><textarea value={form.tumor_marker_summary} onChange={(e) => setForm({ ...form, tumor_marker_summary: e.target.value })} /></div>

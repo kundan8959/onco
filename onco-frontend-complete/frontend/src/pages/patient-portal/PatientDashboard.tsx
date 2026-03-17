@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { oncologyApi } from '../../api';
 import { useAuth } from '../../context/AuthContext';
 import { useNotifications } from '../../context/NotificationsContext';
+import PatientHero from '../../components/PatientHero';
 
 export default function PatientDashboard() {
   const { user } = useAuth();
@@ -21,7 +22,9 @@ export default function PatientDashboard() {
     }).finally(() => setLoading(false));
   }, []);
 
-  const activeRecord = records[0];
+  const activeRecord   = records[0];
+  const completedCount = treatments.filter((t) => t.status === 'completed').length;
+  const progress       = treatments.length > 0 ? completedCount / treatments.length : 0;
 
   const statusColor = (s: string) => ({
     scheduled: '#3b82f6', completed: '#10b981', delayed: '#f59e0b', cancelled: '#ef4444',
@@ -29,20 +32,11 @@ export default function PatientDashboard() {
 
   return (
     <div>
-      <div className="patient-hero-card">
-        <div>
-          <span className="eyebrow">Welcome back</span>
-          <h1>My Dashboard</h1>
-          <p>Your treatment progress, upcoming sessions, and care summary at a glance.</p>
-        </div>
-        {unread > 0 && (
-          <div className="hero-actions">
-            <span className="badge badge-warning" style={{ fontSize: 14, padding: '6px 14px' }}>
-              {unread} unread notification{unread !== 1 ? 's' : ''}
-            </span>
-          </div>
-        )}
-      </div>
+      <PatientHero
+        firstName={user?.first_name || user?.username}
+        progress={progress}
+        unread={unread}
+      />
 
       {loading ? (
         <div style={{ padding: 32, textAlign: 'center' }}>Loading your care summary…</div>

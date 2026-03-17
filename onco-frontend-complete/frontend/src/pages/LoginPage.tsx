@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader';
 import { useAuth } from '../context/AuthContext';
+import { APP_NAME, LOGO_FULL_URL } from '../config';
 
 const quickAccess = [
   { role: 'Superadmin', username: 'superadmin', password: 'superadmin123', desc: 'Platform administration' },
@@ -34,7 +35,8 @@ export default function LoginPage() {
   return (
     <div className="login-shell premium-login-shell">
       <div className="login-hero premium-login-hero">
-        <span className="eyebrow">OncoFlow Platform</span>
+        <span className="eyebrow">{APP_NAME} Platform</span>
+        <img src={LOGO_FULL_URL} alt={APP_NAME} style={{ height: 44, width: 'auto', maxWidth: '100%', objectFit: 'contain', marginBottom: 16, alignSelf: 'flex-start' }} />
         <h1>Diagnosis confirmed. Treatment planned. Symptoms tracked. Payer revenue protected.</h1>
         <p>
           A cleaner oncology workspace centered around four cancers, AI-assisted interpretation, treatment planning,
@@ -75,7 +77,10 @@ export default function LoginPage() {
 
         <label>
           Username
-          <input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" required />
+          <input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username or email" required />
+          <small style={{ color: 'var(--muted)', fontSize: 11, marginTop: 4, display: 'block' }}>
+            Patients: use your registered email address as your username.
+          </small>
         </label>
 
         <label>

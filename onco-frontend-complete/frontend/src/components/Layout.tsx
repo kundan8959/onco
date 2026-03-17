@@ -5,6 +5,9 @@ import { useAuth } from '../context/AuthContext';
 import { appRoutes, getDefaultRouteForRole } from '../pages/WireframeShell';
 import Breadcrumbs from './Breadcrumbs';
 import NotificationBell from './NotificationBell';
+import HospitalSwitcher from './HospitalSwitcher';
+import { APP_NAME } from '../config';
+import { useThemeLogo } from '../hooks/useThemeLogo';
 
 const roleLabels = {
   superadmin: 'Superadmin Workspace',
@@ -49,6 +52,7 @@ export default function Layout() {
   const location = useLocation();
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
+  const { logoSmall, logoFull } = useThemeLogo();
 
   const routes = useMemo(() => appRoutes.filter((route) => user && route.roles.includes(user.role)), [user]);
 
@@ -111,12 +115,10 @@ export default function Layout() {
       <aside className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
         <div className="sidebar-glow"></div>
         <div className="brand-block">
-          <div className="brand-logo">ON</div>
-          {!collapsed && (
-            <div>
-              <h1>TP Healthcare</h1>
-              <p>Tecpinion Healthcare workspace</p>
-            </div>
+          {collapsed ? (
+            <img src={logoSmall} alt={APP_NAME} className="brand-logo-img brand-logo-img--small" />
+          ) : (
+            <img src={logoFull} alt={APP_NAME} className="brand-logo-img brand-logo-img--full" />
           )}
         </div>
 
@@ -150,7 +152,7 @@ export default function Layout() {
               <i className="fas fa-bars"></i>
             </button>
             <div className="topbar-brand" onClick={() => navigate(getDefaultRouteForRole(user.role))}>
-              <div className="topbar-brand-icon">⚕️</div>
+              {/* <div className="topbar-brand-icon"><img src={logoSmall} alt={APP_NAME} /></div> */}
               <div>
                 <div className="topbar-brand-name">TP Healthcare <span>EHR</span></div>
                 <div className="breadcrumb-line">{roleLabels[user.role]}</div>
@@ -158,6 +160,7 @@ export default function Layout() {
             </div>
           </div>
           <div className="topbar-right">
+            {user.role === 'patient' && <HospitalSwitcher />}
             <NotificationBell />
             <div className="identity-pill glass-pill">
               <div className="nav-avatar-mini">{(user.first_name || user.username || 'U').slice(0, 2).toUpperCase()}</div>

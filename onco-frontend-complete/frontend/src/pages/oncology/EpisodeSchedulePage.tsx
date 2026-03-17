@@ -3,6 +3,7 @@ import { episodesApi, oncologyApi } from '../../api';
 import CrudModal from '../../components/CrudModal';
 import Loader from '../../components/Loader';
 import { usePermissions } from '../../hooks/usePermissions';
+import DateInput from '../../components/DateInput';
 
 const EPISODE_TYPES = [
   { value: 'chemotherapy', label: 'Chemotherapy' },
@@ -356,11 +357,11 @@ export default function EpisodeSchedulePage() {
           </div>
           <div className="form-group" style={{ margin: 0 }}>
             <label>From date</label>
-            <input type="date" value={filterDateFrom} onChange={(e) => setFilterDateFrom(e.target.value)} />
+            <DateInput value={filterDateFrom} onChange={v => setFilterDateFrom(v)} />
           </div>
           <div className="form-group" style={{ margin: 0 }}>
             <label>To date</label>
-            <input type="date" value={filterDateTo} onChange={(e) => setFilterDateTo(e.target.value)} />
+            <DateInput value={filterDateTo} onChange={v => setFilterDateTo(v)} />
           </div>
         </div>
         {(filterCancer || filterType || filterStatus || filterDateFrom || filterDateTo) && (
@@ -575,7 +576,7 @@ export default function EpisodeSchedulePage() {
 
             <div className="form-group">
               <label>Scheduled Date *</label>
-              <input type="date" value={form.scheduled_date} onChange={(e) => setForm((f) => ({ ...f, scheduled_date: e.target.value }))} />
+              <DateInput value={form.scheduled_date} onChange={v => setForm((f) => ({ ...f, scheduled_date: v }))} />
             </div>
 
             <div className="form-group">

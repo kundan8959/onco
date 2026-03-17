@@ -10,6 +10,7 @@ import { useLoading } from '../../hooks/useLoading';
 import { usePermissions } from '../../hooks/usePermissions';
 import { useAppDispatch } from '../../store/hooks';
 import { showNotice } from '../../store/uiSlice';
+import DateInput from '../../components/DateInput';
 
 const emptyForm = {
   patient_id: '',
@@ -173,8 +174,8 @@ export default function MedicationListPage() {
           <div className="form-group"><label>Dosage</label><input value={form.dosage} onChange={(e) => setForm({ ...form, dosage: e.target.value })} /></div>
           <div className="form-group"><label>Frequency</label><select value={form.frequency} onChange={(e) => setForm({ ...form, frequency: e.target.value })}><option value="">-- Select --</option><option value="once_daily">Once Daily</option><option value="twice_daily">Twice Daily</option><option value="thrice_daily">Thrice Daily</option><option value="four_times_daily">Four Times Daily</option><option value="as_needed">As Needed</option><option value="weekly">Weekly</option><option value="monthly">Monthly</option></select></div>
           <div className="form-group"><label>Route</label><input value={form.route} onChange={(e) => setForm({ ...form, route: e.target.value })} /></div>
-          <div className="form-group"><label>Start Date</label><input type="date" value={form.start_date} onChange={(e) => setForm({ ...form, start_date: e.target.value })} /></div>
-          <div className="form-group"><label>End Date</label><input type="date" value={form.end_date} onChange={(e) => setForm({ ...form, end_date: e.target.value })} /></div>
+          <div className="form-group"><label>Start Date</label><DateInput value={form.start_date} onChange={v => setForm({ ...form, start_date: v })} /></div>
+          <div className="form-group"><label>End Date</label><DateInput value={form.end_date} onChange={v => setForm({ ...form, end_date: v })} /></div>
           <div className="form-group"><label>Prescribed By</label><input value={form.prescribed_by} onChange={(e) => setForm({ ...form, prescribed_by: e.target.value })} /></div>
           <div className="form-group"><label>Reason</label><input value={form.reason} onChange={(e) => setForm({ ...form, reason: e.target.value })} /></div>
           <div className="form-group checkbox-group"><label><input type="checkbox" checked={form.is_active} onChange={(e) => setForm({ ...form, is_active: e.target.checked })} /> Active</label></div>

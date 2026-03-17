@@ -57,7 +57,7 @@ export default function PatientDetailPage() {
         <div>
           <span className="eyebrow">Patient profile</span>
           <h1>{patient.full_name || `${patient.first_name} ${patient.last_name}`}</h1>
-          <p>Complete clinical profile including medications, vitals, allergies, chronic conditions, and care history.</p>
+          {/* <p>Complete clinical profile including medications, vitals, allergies, chronic conditions, and care history.</p> */}
           <div className="hero-badge-row">
             <span className="hero-badge">MRN {patient.medical_record_number}</span>
             <span className="hero-badge">{patient.insurance_status === 'insured' ? 'Insured' : 'Non-Insured'}</span>
