@@ -2,6 +2,10 @@
 // All outbound HTML emails are built here for consistency.
 // Brand colours: primary #4e73df  success #1cc88a  warning #f59e0b  danger #e74a3b
 
+const APP_NAME = process.env.APP_NAME || 'TP Healthcare';
+const LOGO_FULL_URL = process.env.LOGO_FULL_URL || 'https://www.tecpinion.com/wp-content/uploads/2022/03/tecpinion_logo-1-1.webp';
+const LOGO_SMALL_URL = process.env.LOGO_SMALL_URL || 'https://www.tecpinion.com/wp-content/uploads/2023/12/imgpsh_fullsize_anim.png';
+
 const CANCER_COLORS: Record<string, string> = {
   'Breast Cancer': '#e91e8c',
   'Prostate Cancer': '#1b5e9c',
@@ -49,8 +53,10 @@ function baseLayout(opts: {
       <td style="background:#ffffff;padding:18px 32px 0;border-bottom:1px solid #f0f2fa">
         <table width="100%" cellpadding="0" cellspacing="0">
           <tr>
-            <td style="font-size:18px;font-weight:700;color:#4e73df;letter-spacing:-.3px">
-              🏥 Onco<span style="color:#1cc88a">EHR</span>
+            <td>
+              <img src="${LOGO_FULL_URL}"
+                   alt="${APP_NAME}" height="36"
+                   style="display:block;max-height:36px;width:auto" />
             </td>
             <td align="right" style="font-size:11px;color:#a0aec0">
               Oncology Care Management
@@ -78,7 +84,7 @@ function baseLayout(opts: {
       <td style="background:#f8fafc;border-top:1px solid #e8edf5;padding:20px 32px;text-align:center">
         ${opts.footerExtra ? `<p style="margin:0 0 10px;font-size:13px;color:#5a5c69">${opts.footerExtra}</p>` : ''}
         <p style="margin:0;font-size:11px;color:#a0aec0;line-height:1.6">
-          This is an automated message from <strong>OncoEHR</strong>. Please do not reply directly to this email.<br>
+          This is an automated message from <strong>${APP_NAME}</strong>. Please do not reply directly to this email.<br>
           If you have questions, contact your cancer care team.
         </p>
       </td>
@@ -388,7 +394,7 @@ export function buildNotificationEmail(opts: {
         <table cellpadding="0" cellspacing="0" style="margin-top:24px">
           <tr>
             <td style="background:${color};border-radius:6px;padding:12px 24px">
-              <a href="${opts.actionUrl}" style="color:#fff;font-size:14px;font-weight:700;text-decoration:none;letter-spacing:.02em">View in OncoEHR →</a>
+              <a href="${opts.actionUrl}" style="color:#fff;font-size:14px;font-weight:700;text-decoration:none;letter-spacing:.02em">View in ${APP_NAME} →</a>
             </td>
           </tr>
         </table>` : ''}
@@ -400,7 +406,82 @@ export function buildNotificationEmail(opts: {
     headerColor: color,
     headerIcon: icon,
     headerTitle: opts.title,
-    headerSubtitle: 'Notification from OncoEHR',
+    headerSubtitle: `Notification from ${APP_NAME}`,
+    body,
+  });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 5. PATIENT PORTAL INVITE — set-password link
+// ─────────────────────────────────────────────────────────────────────────────
+export function buildPatientInviteEmail(opts: {
+  patientName: string;
+  hospitalName: string;
+  setPasswordUrl: string;
+}): string {
+  const body = `
+    <table width="100%" cellpadding="0" cellspacing="0">
+      <tr><td style="padding:28px 32px 0">
+        <p style="margin:0 0 12px;font-size:15px;color:#5a5c69">
+          Dear <strong>${opts.patientName}</strong>,
+        </p>
+        <p style="margin:0 0 14px;font-size:14px;color:#718096;line-height:1.7">
+          You have been registered at <strong>${opts.hospitalName}</strong> on
+          the <strong>${APP_NAME}</strong> platform. To access your patient portal,
+          please set your password by clicking the button below.
+        </p>
+        <p style="margin:0 0 24px;font-size:13px;color:#a0aec0;line-height:1.6">
+          This link is valid for <strong>48 hours</strong>. If you did not expect
+          this email, please contact your care team.
+        </p>
+      </td></tr>
+    </table>
+
+    <!-- CTA button -->
+    <table width="100%" cellpadding="0" cellspacing="0">
+      <tr><td align="center" style="padding:0 32px 28px">
+        <a href="${opts.setPasswordUrl}"
+           style="display:inline-block;padding:14px 36px;background:#4e73df;color:#ffffff;
+                  font-size:15px;font-weight:700;border-radius:8px;text-decoration:none;
+                  letter-spacing:.02em">
+          Set My Password &rarr;
+        </a>
+      </td></tr>
+    </table>
+
+    <!-- Fallback link -->
+    <table width="100%" cellpadding="0" cellspacing="0">
+      <tr><td style="padding:0 32px 24px">
+        <p style="margin:0;font-size:12px;color:#a0aec0;line-height:1.7">
+          If the button doesn't work, copy and paste this link into your browser:<br>
+          <a href="${opts.setPasswordUrl}" style="color:#4e73df;word-break:break-all">
+            ${opts.setPasswordUrl}
+          </a>
+        </p>
+      </td></tr>
+    </table>
+
+    <!-- Security note -->
+    <table width="100%" cellpadding="0" cellspacing="0">
+      <tr><td style="padding:0 32px 8px">
+        <table width="100%" cellpadding="0" cellspacing="0"
+               style="background:#f0f4ff;border-left:4px solid #4e73df;border-radius:0 6px 6px 0">
+          <tr><td style="padding:12px 16px">
+            <p style="margin:0;font-size:12px;color:#4a5568;line-height:1.55">
+              🔒 <strong>Security note:</strong> ${APP_NAME} staff will never ask you for
+              your password. This link can only be used once.
+            </p>
+          </td></tr>
+        </table>
+      </td></tr>
+    </table>
+  `;
+
+  return baseLayout({
+    headerColor: '#4e73df',
+    headerIcon: '🔐',
+    headerTitle: 'Set Your Patient Portal Password',
+    headerSubtitle: `${opts.hospitalName} — ${APP_NAME} Patient Portal`,
     body,
   });
 }

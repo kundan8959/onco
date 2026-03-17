@@ -33,7 +33,7 @@ export class NotificationsController {
     return this.notificationsService.notify({
       recipientUsername: body.recipientUsername || req.user.username,
       title: body.title || 'Test notification',
-      message: body.message || 'This is a test notification from Onco EHR.',
+      message: body.message || `This is a test notification from ${process.env.APP_NAME || 'TP Healthcare'}.`,
       type: body.type || 'info',
       category: body.category || 'manual',
       actionUrl: body.actionUrl || null,

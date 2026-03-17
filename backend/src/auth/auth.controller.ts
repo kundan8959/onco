@@ -27,4 +27,10 @@ export class AuthController {
   async me(@Request() req: any) {
     return this.authService.getMe(req.user.id);
   }
+
+  @Post('set-password')
+  @ApiOperation({ summary: 'Set password via invite token (patient onboarding)' })
+  async setPassword(@Body() body: { token: string; password: string }) {
+    return this.authService.setPassword(body.token, body.password);
+  }
 }

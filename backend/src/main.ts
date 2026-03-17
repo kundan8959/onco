@@ -2,9 +2,14 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import * as express from 'express';
+import * as path from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // Serve /backend/public as /static (used for logo images in emails)
+  app.use('/static', express.static(path.join(__dirname, '..', 'public')));
 
   app.setGlobalPrefix('api');
 

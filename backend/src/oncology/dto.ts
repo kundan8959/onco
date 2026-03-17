@@ -1,4 +1,4 @@
-import { IsBoolean, IsDateString, IsIn, IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsDateString, IsIn, IsInt, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString } from 'class-validator';
 
 export class CreateOncologyRecordDto {
   @IsInt() patient_id: number;
@@ -9,13 +9,77 @@ export class CreateOncologyRecordDto {
   @IsOptional() @IsString() treatment_intent?: string;
   @IsOptional() @IsString() status?: string;
   @IsOptional() @IsString() hospital_name?: string;
+  // Diagnosis detail
+  @IsOptional() @IsString() other_cancer_type_details?: string;
+  @IsOptional() @IsString() icd10_code?: string;
+  @IsOptional() @IsString() confirmed_by?: string;
+  @IsOptional() @IsNumber() ai_confidence_score?: number;
+  @IsOptional() @IsString() pathology_report_notes?: string;
+  // Staging
+  @IsOptional() @IsString() t_stage?: string;
+  @IsOptional() @IsString() n_stage?: string;
+  @IsOptional() @IsString() m_stage?: string;
+  @IsOptional() @IsString() stage_grouping_version?: string;
+  // Tumor characteristics
+  @IsOptional() @IsString() grade?: string;
+  @IsOptional() @IsString() histology_type?: string;
+  @IsOptional() @IsNumber() tumor_size_cm?: number;
+  @IsOptional() @IsBoolean() lymph_node_involvement?: boolean;
+  @IsOptional() @IsBoolean() metastasis_present?: boolean;
+  @IsOptional() @IsObject() biomarkers?: Record<string, any>;
+  // Clinical assessment
+  @IsOptional() @IsInt() ecog_performance_status?: number;
+  @IsOptional() @IsString() comorbidities?: string;
+  @IsOptional() @IsString() supporting_lab_results?: string;
+  @IsOptional() @IsString() imaging_findings?: string;
+  @IsOptional() @IsString() clinical_notes?: string;
+  // Treatment roadmap
+  @IsOptional() @IsString() recommended_surgery?: string;
+  @IsOptional() @IsString() recommended_chemotherapy?: string;
+  @IsOptional() @IsString() recommended_radiation?: string;
+  @IsOptional() @IsString() recommended_immunotherapy?: string;
+  @IsOptional() @IsString() recommended_targeted_therapy?: string;
+  @IsOptional() @IsString() urgency_level?: string;
+  // Misc
+  @IsOptional() @IsBoolean() is_primary?: boolean;
+  @IsOptional() @IsString() notes?: string;
 }
 
 export class UpdateOncologyRecordDto {
   @IsOptional() @IsString() cancer_type?: string;
+  @IsOptional() @IsString() other_cancer_type_details?: string;
+  @IsOptional() @IsString() icd10_code?: string;
+  @IsOptional() @IsDateString() diagnosis_date?: string;
+  @IsOptional() @IsBoolean() diagnosis_confirmed?: boolean;
+  @IsOptional() @IsString() confirmed_by?: string;
+  @IsOptional() @IsNumber() ai_confidence_score?: number;
+  @IsOptional() @IsString() pathology_report_notes?: string;
+  @IsOptional() @IsString() t_stage?: string;
+  @IsOptional() @IsString() n_stage?: string;
+  @IsOptional() @IsString() m_stage?: string;
   @IsOptional() @IsString() clinical_stage?: string;
+  @IsOptional() @IsString() stage_grouping_version?: string;
+  @IsOptional() @IsString() grade?: string;
+  @IsOptional() @IsString() histology_type?: string;
+  @IsOptional() @IsNumber() tumor_size_cm?: number;
+  @IsOptional() @IsBoolean() lymph_node_involvement?: boolean;
+  @IsOptional() @IsBoolean() metastasis_present?: boolean;
+  @IsOptional() @IsObject() biomarkers?: Record<string, any>;
+  @IsOptional() @IsInt() ecog_performance_status?: number;
+  @IsOptional() @IsString() comorbidities?: string;
+  @IsOptional() @IsString() supporting_lab_results?: string;
+  @IsOptional() @IsString() imaging_findings?: string;
+  @IsOptional() @IsString() clinical_notes?: string;
+  @IsOptional() @IsString() recommended_surgery?: string;
+  @IsOptional() @IsString() recommended_chemotherapy?: string;
+  @IsOptional() @IsString() recommended_radiation?: string;
+  @IsOptional() @IsString() recommended_immunotherapy?: string;
+  @IsOptional() @IsString() recommended_targeted_therapy?: string;
   @IsOptional() @IsString() treatment_intent?: string;
+  @IsOptional() @IsString() urgency_level?: string;
   @IsOptional() @IsString() status?: string;
+  @IsOptional() @IsBoolean() is_primary?: boolean;
+  @IsOptional() @IsString() notes?: string;
 }
 
 export class CreateTreatmentDto {

@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, BadRequestException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -73,19 +73,42 @@ export class AuthService {
 
     const result: any = { user: this.toUserResponse(user) };
 
-    // For patient role, also return the linked patient record (matched by email)
+    // For patient role, return ALL linked patient records (one per hospital).
+    // A patient may be registered at multiple hospitals; their User account
+    // (matched by email) is shared across all of them.
     if (user.role === UserRole.PATIENT && user.email) {
-      const patient = await this.patientRepo.findOne({ where: { email: user.email } });
-      if (patient) {
-        result.patient = patient;
+      const records = await this.patientRepo.find({
+        where: { email: user.email, is_active: true },
+        order: { created_at: 'ASC' },
+      });
+      if (records.length > 0) {
+        result.patient = records[0];          // primary record (first registration)
+        result.patient_records = records;     // all hospital registrations
       }
     }
 
     return result;
   }
 
-  async createInitialAdmin() {
-    const seedUsers = [
+  async setPassword(token: string, password: string) {
+    const user = await this.userRepo.findOne({ where: { invite_token: token } });
+    if (!user || !user.invite_token_expires_at || user.invite_token_expires_at < new Date()) {
+      throw new BadRequestException('Invalid or expired invite link');
+    }
+    user.password = await bcrypt.hash(password, 10);
+    user.is_active = true;
+    user.invite_token = null;
+    user.invite_token_expires_at = null;
+    await this.userRepo.save(user);
+    const payload = this.toPayload(user);
+    return {
+      access: this.jwtService.sign(payload),
+      refresh: this.jwtService.sign(payload, { expiresIn: '7d' }),
+      user: this.toUserResponse(user),
+    };
+  }
+
+  async createInitialAdmin() {    const seedUsers = [
       {
         username: 'superadmin',
         password: 'superadmin123',

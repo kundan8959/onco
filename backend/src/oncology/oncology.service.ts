@@ -1,10 +1,10 @@
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import {
   OncologyRecord, OncologyTreatment, OncologyFollowUp,
   OncologySymptomReport, OncologyPayerSubmission, NotificationChannel,
-  TreatmentEpisode, User,
+  TreatmentEpisode, User, Patient,
 } from '../entities';
 import { NotificationsService } from '../notifications.service';
 import { AuditService } from '../audit.service';
@@ -12,12 +12,20 @@ import { buildEpisodeEmail, buildCancellationEmail, buildTreatmentScheduledEmail
 
 @Injectable()
 export class OncologyService {
-  private readonly allowedCancerTypes = new Set([
-    'Breast Cancer',
-    'Prostate Cancer',
-    'Lung Cancer',
-    'Colorectal Cancer',
-  ]);
+  /** Returns the IDs of all Patient rows linked to the logged-in patient user (by email). */
+  private async getPatientIdsForUser(actor: any): Promise<number[]> {
+    if (!actor?.email) return [];
+    const rows = await this.patientRepo.find({ where: { email: actor.email }, select: ['id'] });
+    return rows.map((r) => r.id);
+  }
+
+  /** Returns all OncologyRecord IDs that belong to the logged-in patient user. */
+  private async getRecordIdsForUser(actor: any): Promise<number[]> {
+    const patientIds = await this.getPatientIdsForUser(actor);
+    if (patientIds.length === 0) return [];
+    const records = await this.recordRepo.find({ where: { patient_id: In(patientIds) }, select: ['id'] });
+    return records.map((r) => r.id);
+  }
 
   private assertHospitalAccess(entity: any, actor?: any) {
     if (actor?.role === 'hospital' && actor?.hospital_name && entity?.hospital_name !== actor.hospital_name) {
@@ -46,17 +54,14 @@ export class OncologyService {
     @InjectRepository(OncologyPayerSubmission) private payerRepo: Repository<OncologyPayerSubmission>,
     @InjectRepository(TreatmentEpisode) private episodeRepo: Repository<TreatmentEpisode>,
     @InjectRepository(User) private userRepo: Repository<User>,
+    @InjectRepository(Patient) private patientRepo: Repository<Patient>,
     private notificationsService: NotificationsService,
     private auditService: AuditService,
   ) {}
 
   private normalizeCancerType(value?: string) {
     if (!value) return value;
-    const normalized = String(value).trim();
-    if (!this.allowedCancerTypes.has(normalized)) {
-      throw new BadRequestException(`Unsupported cancer type. Allowed: ${[...this.allowedCancerTypes].join(', ')}`);
-    }
-    return normalized;
+    return String(value).trim();
   }
 
   // ===== ONCOLOGY RECORDS =====
@@ -65,7 +70,16 @@ export class OncologyService {
     if (query.patient_id) where.patient_id = query.patient_id;
     if (query.status) where.status = query.status;
     if (query.cancer_type) where.cancer_type = this.normalizeCancerType(query.cancer_type);
-    if (actor?.role === 'hospital' && actor?.hospital_name) where.hospital_name = actor.hospital_name;
+
+    if (actor?.role === 'hospital' && actor?.hospital_name) {
+      // Hospital sees only records belonging to their patients
+      where.hospital_name = actor.hospital_name;
+    } else if (actor?.role === 'patient') {
+      // Patient sees only their own records across all hospitals
+      const ids = await this.getPatientIdsForUser(actor);
+      if (ids.length === 0) return { count: 0, page: 1, page_size: 25, results: [] };
+      where.patient_id = In(ids);
+    }
 
     return this.paginate(this.recordRepo, {
       where,
@@ -92,6 +106,10 @@ export class OncologyService {
     if (!record) throw new NotFoundException('Oncology record not found');
     if (actor?.role === 'hospital' && actor?.hospital_name && record.hospital_name !== actor.hospital_name)
       throw new ForbiddenException('Access denied');
+    if (actor?.role === 'patient') {
+      const ids = await this.getPatientIdsForUser(actor);
+      if (!ids.includes(record.patient_id)) throw new ForbiddenException('Access denied');
+    }
 
     const [treatments, followups, symptoms, payerSubmissions] = await Promise.all([
       this.treatmentRepo.find({ where: { oncology_record_id: id }, order: { start_date: 'DESC' } }),
@@ -201,6 +219,11 @@ export class OncologyService {
     if (query.treatment_type) where.treatment_type = query.treatment_type;
     if (query.response) where.response = query.response;
     if (actor?.role === 'hospital' && actor?.hospital_name) where.hospital_name = actor.hospital_name;
+    if (actor?.role === 'patient') {
+      const recordIds = await this.getRecordIdsForUser(actor);
+      if (recordIds.length === 0) return { count: 0, page: 1, page_size: 25, results: [] };
+      where.oncology_record_id = In(recordIds);
+    }
     return this.paginate(this.treatmentRepo, { where, relations: ['oncology_record', 'oncology_record.patient'], order: { start_date: 'DESC' } }, query);
   }
 
@@ -395,6 +418,11 @@ export class OncologyService {
     const where: any = {};
     if (query.oncology_record_id) where.oncology_record_id = query.oncology_record_id;
     if (actor?.role === 'hospital' && actor?.hospital_name) where.hospital_name = actor.hospital_name;
+    if (actor?.role === 'patient') {
+      const recordIds = await this.getRecordIdsForUser(actor);
+      if (recordIds.length === 0) return { count: 0, page: 1, page_size: 25, results: [] };
+      where.oncology_record_id = In(recordIds);
+    }
     return this.paginate(this.followupRepo, { where, order: { followup_date: 'DESC' } }, query);
   }
 
@@ -424,6 +452,11 @@ export class OncologyService {
     if (query.oncology_record_id) qb.andWhere('s.oncology_record_id = :rid', { rid: Number(query.oncology_record_id) });
     if (query.patient_id) qb.andWhere('rec.patient_id = :pid', { pid: Number(query.patient_id) });
     if (actor?.role === 'hospital' && actor?.hospital_name) qb.andWhere('s.hospital_name = :hn', { hn: actor.hospital_name });
+    if (actor?.role === 'patient') {
+      const patientIds = await this.getPatientIdsForUser(actor);
+      if (patientIds.length === 0) return { count: 0, page, page_size, results: [] };
+      qb.andWhere('rec.patient_id IN (:...pids)', { pids: patientIds });
+    }
     const [results, count] = await qb.getManyAndCount();
     return { count, page, page_size, results };
   }
@@ -579,6 +612,11 @@ export class OncologyService {
     if (query.episode_type) where.episode_type = query.episode_type;
     if (query.cancer_type) where.cancer_type = query.cancer_type;
     if (actor?.role === 'hospital' && actor?.hospital_name) where.hospital_name = actor.hospital_name;
+    if (actor?.role === 'patient') {
+      const patientIds = await this.getPatientIdsForUser(actor);
+      if (patientIds.length === 0) return { count: 0, page: 1, page_size: 50, results: [] };
+      where.patient_id = In(patientIds);
+    }
     return this.paginate(
       this.episodeRepo,
       { where, relations: ['oncology_record', 'oncology_record.patient'], order: { scheduled_date: 'ASC' } },

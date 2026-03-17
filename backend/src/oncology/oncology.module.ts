@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   OncologyRecord, OncologyTreatment, OncologyFollowUp,
-  OncologySymptomReport, OncologyPayerSubmission, TreatmentEpisode, User,
+  OncologySymptomReport, OncologyPayerSubmission, TreatmentEpisode, User, Patient,
 } from '../entities';
 import { OncologyService } from './oncology.service';
 import { OncologyController } from './oncology.controller';
@@ -15,7 +15,7 @@ import { AuditLog } from '../entities';
     TypeOrmModule.forFeature([
       OncologyRecord, OncologyTreatment, OncologyFollowUp,
       OncologySymptomReport, OncologyPayerSubmission,
-      TreatmentEpisode, AuditLog, User,
+      TreatmentEpisode, AuditLog, User, Patient,
     ]),
     NotificationsModule,
   ],

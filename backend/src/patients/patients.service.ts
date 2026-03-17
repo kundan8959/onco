@@ -1,15 +1,25 @@
 import { Injectable, NotFoundException, ConflictException, ForbiddenException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like, ILike } from 'typeorm';
+import * as bcrypt from 'bcryptjs';
 import {
   Patient, Allergy, Vitals, Lifestyle, MedicalHistory,
   Medication, ChronicCondition, NotificationChannel, User, UserRole,
 } from '../entities';
 import { NotificationsService } from '../notifications.service';
 import { AuditService } from '../audit.service';
+import { buildPatientInviteEmail } from '../email-templates';
 
 @Injectable()
 export class PatientsService {
+  /** Returns usernames of all superadmins + hospital users scoped to a specific hospital. */
+  private async resolveRecipients(hospitalName: string | null): Promise<string[]> {
+    const where: any[] = [{ role: UserRole.SUPERADMIN }];
+    if (hospitalName) where.push({ role: UserRole.HOSPITAL, hospital_name: hospitalName });
+    const users = await this.userRepo.find({ where, select: ['username'] });
+    return users.map((u) => u.username).filter(Boolean);
+  }
+
   private assertHospitalAccess(entity: any, actor?: any) {
     if (actor?.role === 'hospital' && actor?.hospital_name && entity?.hospital_name !== actor.hospital_name) {
       throw new NotFoundException('Record not found');
@@ -127,7 +137,9 @@ export class PatientsService {
 
   async createPatient(data: Partial<Patient>, actor?: any) {
     const resolvedHospital = actor?.role === 'hospital' ? actor.hospital_name : (data.hospital_name || actor?.hospital_name || null);
+
     // Per-hospital uniqueness: the same email CAN exist at different hospitals.
+    let needsNewUser = false;
     if (data.email) {
       const [dupPatient, existingUser] = await Promise.all([
         this.patientRepo.findOne({ where: { email: data.email, hospital_name: resolvedHospital } }),
@@ -136,15 +148,58 @@ export class PatientsService {
       if (dupPatient) {
         throw new ConflictException('A patient with this email is already registered at this hospital');
       }
-      // Only block if the existing user is a staff/admin account — patient accounts
-      // are shared across hospitals and do NOT block registration.
       if (existingUser && existingUser.role !== UserRole.PATIENT) {
         throw new ConflictException('Email is already in use by a staff account');
       }
+      needsNewUser = !existingUser;
     }
+
     const patient = this.patientRepo.create({ ...data, hospital_name: resolvedHospital });
     const saved = await this.patientRepo.save(patient);
-    await this.notificationsService.notifyMany(['superadmin', 'hospital'], {
+
+    // ── Create portal login and send invite email (first registration only) ──
+    // If the patient already has an account from another hospital we do NOT
+    // reset their password — they keep their existing credentials.
+    if (needsNewUser && saved.email) {
+      const token = User.generateInviteToken();
+      const expires = new Date(Date.now() + 48 * 60 * 60 * 1000); // 48 h
+
+      const newUser = this.userRepo.create({
+        username: saved.email,
+        // Locked placeholder — the real password is set when the patient clicks the link.
+        password: await bcrypt.hash(`__invite__${token}`, 10),
+        first_name: saved.first_name,
+        last_name: saved.last_name,
+        email: saved.email,
+        role: UserRole.PATIENT,
+        hospital_name: null,
+        is_active: false,   // account is inactive until the patient sets a password
+        is_staff: false,
+        is_superuser: false,
+        invite_token: token,
+        invite_token_expires_at: expires,
+      });
+      await this.userRepo.save(newUser);
+
+      const frontendBase = process.env.FRONTEND_URL || 'http://localhost:5173';
+      const setPasswordUrl = `${frontendBase}/set-password?token=${token}`;
+
+      const html = buildPatientInviteEmail({
+        patientName: saved.full_name,
+        hospitalName: resolvedHospital || 'your hospital',
+        setPasswordUrl,
+      });
+
+      // Fire-and-forget — registration must not fail if SMTP is misconfigured
+      this.notificationsService.sendDirectEmail(
+        saved.email,
+        `Set Your ${process.env.APP_NAME || 'TP Healthcare'} Patient Portal Password`,
+        html,
+      ).catch((err: Error) => console.error('[invite email]', err.message));
+    }
+
+    const createRecipients = await this.resolveRecipients(resolvedHospital);
+    await this.notificationsService.notifyMany(createRecipients, {
       title: 'New patient registered',
       message: `${saved.full_name} was added to the registry.`,
       type: 'success',
@@ -160,7 +215,7 @@ export class PatientsService {
       entity_id: saved.id,
       scope: saved.full_name,
       summary: `Created patient ${saved.full_name}`,
-      metadata: { mrn: saved.medical_record_number },
+      metadata: { mrn: saved.medical_record_number, invite_sent: needsNewUser },
     });
     return saved;
   }
@@ -212,7 +267,8 @@ export class PatientsService {
       }
       if (userDirty) await this.userRepo.save(linkedUser);
     }
-    await this.notificationsService.notifyMany(['superadmin', 'hospital'], {
+    const updateRecipients = await this.resolveRecipients(patient.hospital_name);
+    await this.notificationsService.notifyMany(updateRecipients, {
       title: 'Patient profile updated',
       message: `${saved.full_name}'s profile was updated.`,
       type: 'info',

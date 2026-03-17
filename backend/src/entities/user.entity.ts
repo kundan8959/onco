@@ -2,6 +2,7 @@ import {
   Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, BeforeInsert,
 } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
+import * as crypto from 'crypto';
 
 export enum UserRole {
   SUPERADMIN = 'superadmin',
@@ -48,6 +49,14 @@ export class User {
   @Column({ default: false })
   is_superuser: boolean;
 
+  /** One-time token sent to the patient to set their first password. */
+  @Column({ nullable: true, unique: true, length: 128 })
+  invite_token: string | null;
+
+  /** Token expiry (48 h from registration). */
+  @Column({ type: 'timestamptz', nullable: true })
+  invite_token_expires_at: Date | null;
+
   @CreateDateColumn()
   created_at: Date;
 
@@ -60,5 +69,9 @@ export class User {
 
   get full_name(): string {
     return `${this.first_name || ''} ${this.last_name || ''}`.trim() || this.username;
+  }
+
+  static generateInviteToken(): string {
+    return crypto.randomBytes(48).toString('hex');
   }
 }

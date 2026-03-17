@@ -116,7 +116,7 @@ export class NotificationsService {
   async sendDirectEmail(to: string, subject: string, html: string) {
     if (!this.transporter || !to) return false;
     const from = this.configService.get<string>('MAIL_FROM') || this.configService.get<string>('MAIL_USER');
-    const fromName = this.configService.get<string>('MAIL_FROM_NAME', 'Onco EHR');
+    const fromName = this.configService.get<string>('MAIL_FROM_NAME', process.env.APP_NAME || 'TP Healthcare');
     try {
       await this.transporter.sendMail({
         from: `"${fromName}" <${from}>`,
@@ -145,7 +145,7 @@ export class NotificationsService {
     if (!user?.email) return;
 
     const from = this.configService.get<string>('MAIL_FROM') || this.configService.get<string>('MAIL_USER');
-    const fromName = this.configService.get<string>('MAIL_FROM_NAME', 'Onco EHR');
+    const fromName = this.configService.get<string>('MAIL_FROM_NAME', process.env.APP_NAME || 'TP Healthcare');
 
     try {
       await this.emailJobsService.enqueue({
