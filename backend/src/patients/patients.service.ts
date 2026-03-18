@@ -158,7 +158,7 @@ export class PatientsService {
     if (data.email) {
       const [dupPatient, existingUser] = await Promise.all([
         this.patientRepo.findOne({ where: { email: data.email, hospital_name: resolvedHospital } }),
-        this.userRepo.findOne({ where: { email: data.email } }),
+        this.userRepo.findOne({ where: [{ email: data.email }, { username: data.email }] }),
       ]);
       if (dupPatient) {
         throw new ConflictException('A patient with this email is already registered at this hospital');
@@ -170,7 +170,15 @@ export class PatientsService {
     }
 
     const patient = this.patientRepo.create({ ...data, hospital_name: resolvedHospital });
-    const saved = await this.patientRepo.save(patient);
+    let saved: Patient;
+    try {
+      saved = await this.patientRepo.save(patient);
+    } catch (e: any) {
+      if (e?.code === '23505') {
+        throw new ConflictException('A patient with this email is already registered at this hospital');
+      }
+      throw e;
+    }
 
     // ── Create portal login and send invite email (first registration only) ──
     // If the patient already has an account from another hospital we do NOT
@@ -194,7 +202,13 @@ export class PatientsService {
         invite_token: token,
         invite_token_expires_at: expires,
       });
-      await this.userRepo.save(newUser);
+      try {
+        await this.userRepo.save(newUser);
+      } catch (e: any) {
+        if (e?.code !== '23505') throw e;
+        // User already exists from a concurrent request — skip invite email
+        return saved;
+      }
 
       const frontendBase = process.env.FRONTEND_URL || 'http://localhost:5173';
       const setPasswordUrl = `${frontendBase}/set-password?token=${token}`;

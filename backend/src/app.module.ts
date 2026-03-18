@@ -89,7 +89,7 @@ const ENTITIES = [
         password: config.get('DB_PASSWORD', 'password'),
         database: config.get('DB_NAME', 'oncology_ehr'),
         entities: ENTITIES,
-        // synchronize: config.get('DB_SYNCHRONIZE', 'false') === 'true',
+        synchronize: config.get('DB_SYNCHRONIZE', 'false') === 'true',
         logging: config.get('DB_LOGGING', 'false') === 'true',
       }),
       inject: [ConfigService],
